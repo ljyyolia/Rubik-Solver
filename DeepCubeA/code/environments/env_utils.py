@@ -2,19 +2,18 @@ import numpy as np
 from random import choice
 import re
 
-import sys
-sys.path.append('./')
+#import sys
+#sys.path.append('./')
+
+from .cube_interactive_simple import Cube
 
 def getEnvironment(envName):
     envName = envName.lower()
     if envName == 'cube3':
-        from environments.cube_interactive_simple import Cube
         Environment = Cube(N=3,moveType="qtm")
     elif envName == 'cube3htm':
-        from environments.cube_interactive_simple import Cube
         Environment = Cube(N=3,moveType="htm")
     elif envName == 'cube3htmaba':
-        from environments.cube_interactive_simple import Cube
         Environment = Cube(N=3,moveType="htmaba")
         
     return(Environment)

@@ -7,11 +7,18 @@ import time
 
 from multiprocessing import Process, Queue
 
-sys.path.append('./')
+#sys.path.append('./')
 
-from environments import env_utils
+from ..environments import env_utils
+
+Environment = env_utils.getEnvironment('cube3')
 
 import gc
+
+from ..ml_utils import nnet_utils
+from ..ml_utils import search_utils
+
+
 
 def validSoln(state,soln,Environment):
     solnState = state
@@ -20,8 +27,12 @@ def validSoln(state,soln,Environment):
 
     return(Environment.checkSolved(solnState))
 
-def dataListener(dataQueue,resQueue,gpuNum=None):
-    model_loc = 'savedModels/cube3/1/'
+def dataListener(dataQueue,resQueue, gpuNum=None, useGPU=True):
+    from os import path
+    d = path.dirname(__file__)
+    parent_path = os.path.dirname(d)
+    model_loc = os.path.join(parent_path, 'savedModels/cube3/1/')
+    #model_loc = '.savedModels/cube3/1/'
     model_name = 'model.meta'
     nnet = nnet_utils.loadNnet(model_loc, model_name,useGPU,Environment,gpuNum=gpuNum)
     while True:
@@ -29,14 +40,7 @@ def dataListener(dataQueue,resQueue,gpuNum=None):
         nnetResult = nnet(data)
         resQueue.put(nnetResult)
 
-Environment = env_utils.getEnvironment('cube3')
-
-useGPU = True
-
 ### Load nnet
-
-from ml_utils import nnet_utils
-from ml_utils import search_utils
 
 if len(os.environ['CUDA_VISIBLE_DEVICES']) > 1:
     gpuNums = [int(x) for x in os.environ['CUDA_VISIBLE_DEVICES'].split(",")]
@@ -44,17 +48,17 @@ else:
     gpuNums = [None]
 numParallel = len(gpuNums)
 
-    ### Initialize files
+useGPU = True
+
 dataQueues = []
 resQueues = []
 for num in range(numParallel):
     dataQueues.append(Queue(1))
     resQueues.append(Queue(1))
 
-    dataListenerProc = Process(target=dataListener, args=(dataQueues[num],resQueues[num],gpuNums[num],))
+    dataListenerProc = Process(target=dataListener, args=(dataQueues[num],resQueues[num],gpuNums[num],useGPU,))
     dataListenerProc.daemon = True
     dataListenerProc.start()
-
 
 def heuristicFn_nnet(x):
     ### Write data
@@ -97,18 +101,30 @@ def run_nnet(state, nnet_parallel = 100, depth_penalty = 0.2, bfs = 0):
     assert(validSoln(state,soln,Environment))
 
     data["solution"] = soln
-    
+
     return data
 
 def solveState(state):
     data = run_nnet(state)
     solveStr = ", ".join(["len/time/#nodes - %i/%.2f/%i" % (len(data["solution"]),data["time"],data["nodesGenerated_num"])])
     print("State: %s" % (solveStr), file=sys.stderr)
+    print(data['state'])
     print(data["solution"])
 
+    
+'''
 if __name__ == '__main__':
     filename = '../data/cube3/states.pkl'
     inputData = pickle.load(open(filename,"rb"), encoding='iso-8859-1')
     states = inputData['states']
-    for state in states:
-        solveState(state)
+    #for state in states:
+    #    solveState(state)
+    testState = np.array([0, 1, 8, 3, 4, 12, 11, 41, 6, 
+                          17, 10, 42, 32, 13, 34, 2, 14, 36, 
+                          27, 19, 38, 21, 22, 23, 18, 25, 26,
+                          33, 28, 24, 48, 31, 5, 20, 16, 53,
+                          44, 30, 29, 7, 40, 39, 51, 43, 35,
+                          9, 46, 47, 37, 49, 50, 15, 52, 45])
+    testState = np.array([53,43,51,50,4,48,47,37,45,36,46,38,39,13,41,42,52,44,33,10,27,25,22,19,35,16,29,20,7,26,28,31,34,18,1,24,9,23,11,12,40,14,15,21,17,8,30,6,5,49,3,2,32,0])
+    solveState(testState)
+'''
