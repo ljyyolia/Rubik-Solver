@@ -5,6 +5,7 @@ $("#show").bind("click",function(){
         surface = []
         for(j=0;j<9;j++){
             pos = "[pos='"+i+','+j+"']";
+            console.log(pos)
             color = $(pos)[0].style['background']
             if(color == 'rgb(255, 255, 255)') surface.push(1)
             else surface.push(colorType.indexOf(color));
@@ -161,4 +162,13 @@ $("#convert").bind("click",function(){
             console.log(i)
         }
     }
+})
+
+$(".color").bind("click",function(){
+    pos = "[pos='"+cubePos+"']"
+
+    $(pos)[0].style['background'] = this.style['color']
+    $('#color-picker').css({'left': movex,
+                'top': movey,
+                'display':'none'});
 })

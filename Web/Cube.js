@@ -59,6 +59,7 @@ setOneTime(time);//设置魔方扭动速度- 毫秒时间。
 //参数  id为魔方容器的id，opts为魔方的属性设置
 //opts  > borderLength:num 魔方边长, vColor:color魔方材料颜色 , colors:[[][][][][][]]魔方各个面的颜色  order:num 魔方阶乘 , mouseSen 拖拽时鼠标灵敏度 , oneTime 转动一下时需要的时间 
 var colorType = ['yellow', 'white', 'blue', 'green', 'red', 'orange'];
+var cubePos = ''
 function Cube(id, opts) {
     //储存Cube信息
     this.container = document.getElementById(id);//容器
@@ -219,6 +220,8 @@ Cube.prototype.setColor = function (colorarr) {
             dom[j].faces[i].style.background = this.colors[i][j];
             dom[j].faces[i].setAttribute('pos',i+','+j)
             dom[j].faces[i].onclick = function(){
+                console.log(this.getAttribute("pos"))
+                cubePos = this.getAttribute("pos")
                 $('#color-picker').css({'left': movex,
                 'top': movey,
                 'display':'block'});
