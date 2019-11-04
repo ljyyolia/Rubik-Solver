@@ -24,6 +24,9 @@
             border-width: 1px;
             background-color: white;
         }
+        .btn-default{
+            width:40px
+        }
 
     </style>
 </head>
@@ -43,58 +46,109 @@
 
 <body style="background: #eeeeee;" onmousemove="mousemove(event)">
 
-<div id="mf" style="margin:120px auto 80px;"></div>
-
-<div id="btns" class="btns" style="margin:50px auto 20px; width:300px;">
-    <input type="button" value="u"/>
-    <input type="button" value="d"/>
-    <input type="button" value="l"/>
-    <input type="button" value="r"/>
-    <input type="button" value="f"/>
-    <input type="button" value="b"/>
-    <input type="button" value="u'"/>
-    <input type="button" value="d'"/>
-    <input type="button" value="l'"/>
-    <input type="button" value="r'"/>
-    <input type="button" value="f'"/>
-    <input type="button" value="b'"/>
-</div>
-
-<div class="cs" id="cs" style="width:300px; margin:0 auto;">
-    <input type="button" value="重置颜色" style="margin-top:10px;"/>
-    <input type="button" value="重置位置" style="margin-top:10px;"/>
-    <input type="button" value="随机打乱" style="margin-top:10px;"/>
-    <input type="text" style="margin-top:10px;" value="ddr'd'ffbdrrddr'ffd'ffu'bblluudrru">
-    <input type="button" style="margin-top:10px" value="批量操作"/>
-    <input type="text" style="margin-top:10px;" value="DRLUUBFBRBLURRLRUBLRDDFDLFUFUFFDBRDUBRUFLLFDDBFLUBLRBD">
-    <input type="button" style="margin-top:10px" value="设置颜色"/>
-    <input type="button" style="margin-top:10px" value="还原"/>
-    <div>
-      <a class="btn btn-app" id="solve">
-        <i class="fa fa-check"></i> 求解
-      </a>
-      <a class="btn btn-app" id="show">
-        <i class="fa fa-check"></i> 显示
-      </a>
-      <a class="btn btn-app" id="convert">
-        <i class="fa fa-check"></i> 转换
-      </a>
+<div class="row">
+    <div class="col-xs-6">
+            <div id="mf" style="margin:120px 0 80px 400px;"></div>
     </div>
+    <div class="col-xs-6" style="height:398px">
+            <div class="btn-group" id='color-picker' style="position:absolute;background-color:cornsilk;display:none">
+                    <ul class="fc-color-picker" id="color-chooser" style="margin:0 5px">
+                        <li><a href="#"><i class="fa fa-square color" style="color:yellow"></i></a></li>
+                        <li><a href="#"><i class="fa fa-square color" style="color:white"></i></a></li>
+                        <li><a href="#"><i class="fa fa-square color" style="color:blue"></i></a></li>
+                        <li><a href="#"><i class="fa fa-square color" style="color:green;"></i></a></li>
+                        <li><a href="#"><i class="fa fa-square color" style="color:red"></i></a></li>
+                        <li><a href="#"><i class="fa fa-square color" style="color:orange"></i></a></li>
+                    </ul>
+            </div>
+        <div style="margin-top:100px">
+            <div id="btns" class="btns" style="width:300px;">
+                <div style="margin-bottom: 10px">
+                        <button type="button" class="btn btn-default operation">U</button>
+                        <button type="button" class="btn btn-default operation">D</button>
+                        <button type="button" class="btn btn-default operation">L</button>
+                        <button type="button" class="btn btn-default operation">R</button>
+                        <button type="button" class="btn btn-default operation">F</button>
+                        <button type="button" class="btn btn-default operation">B</button>
+                </div>
+                <div>
+                        <button type="button" class="btn btn-default operation">U'</button>
+                        <button type="button" class="btn btn-default operation">D'</button>
+                        <button type="button" class="btn btn-default operation">L'</button>
+                        <button type="button" class="btn btn-default operation">R'</button>
+                        <button type="button" class="btn btn-default operation">F'</button>
+                        <button type="button" class="btn btn-default operation">B'</button>
+                </div>
+
+            </div>
+                
+            <div class="cs" id="cs" style="width:400px;">
+                <!--
+                <input type="text" style="margin-top:10px;" value="ddr'd'ffbdrrddr'ffd'ffu'bblluudrru">
+                <input type="button" style="margin-top:10px" value="批量操作"/>
+                <input type="text" style="margin-top:10px;" value="DRLUUBFBRBLURRLRUBLRDDFDLFUFUFFDBRDUBRUFLLFDDBFLUBLRBD">
+                <input type="button" style="margin-top:10px" value="设置颜色"/>
+                <input type="button" style="margin-top:10px" value="还原"/>-->
+                <div style="margin-top:30px">
+                    <button type="button" class="btn bg-olive" style="margin-right: 5px;">
+                        <i class="fa fa-refresh"></i> 重置颜色
+                    </button>
+                    <button type="button" class="btn bg-olive" style="margin-right: 5px;">
+                        <i class="fa fa-hand-stop-o"></i> 重置位置
+                    </button>
+                <div style="margin-top:15px">
+                    <button type="button" class="btn bg-olive" style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> 随机打乱
+                    </button>
+                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" id="empty">
+                        <i class="fa fa-circle-o"></i> 清空颜色
+                    </button>
+                    <button type="button" class="btn bg-olive" style="margin-right: 5px;" id="solve">
+                        <i class="fa fa-check"></i> 求解
+                    </button>
+
+                    <button type="button" class="btn bg-olive" style="margin-right: 5px; display:none" id="show">
+                        <i class="fa fa-download"></i> 显示
+                    </button>
+                    <button type="button" class="btn bg-olive" style="margin-right: 5px; display:none" id="convert">
+                        <i class="fa fa-download"></i> 转换
+                    </button>
+                </div>
+                </div>
+            
+            
+            
+            </div>
+            <div class="solution" style="margin-top:10px;width:100px;background-color: white">
+                    <span class="">U</span>
+                    <span class="" style="margin-left: 5px;color:red">U</span>
+            </div>
+
+            <div class="cubeStatus"></div>
+            <div style="margin-top:10px">
+                <button type="button" class="btn bg-default" style="margin-right: 5px; " id="convert">
+                    <i class="fa  fa-chevron-left"></i>     
+                </button>
+                <button type="button" class="btn bg-default" style="margin-right: 5px" id="convert">
+                    <i class="fa  fa-play"></i> 
+                </button>
+                <button type="button" class="btn bg-default" style="margin-right: 5px" id="convert">
+                    <i class="fa  fa-pause"></i> 
+                </button>
+                <button type="button" class="btn bg-default" style="margin-right: 5px" id="convert">
+                    <i class="fa  fa-chevron-right"></i> 
+                </button>
+            </div>
 
 
+
+            </div>
+        </div>
+    </div>
 </div>
-  <div class="cubeStatus"></div>
-  <div class="btn-group" id='color-picker' style="position:absolute;background-color:cornsilk">
-    <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-    <ul class="fc-color-picker" id="color-chooser" style="margin:0 5px">
-      <li><a href="#"><i class="fa fa-square color" style="color:yellow"></i></a></li>
-      <li><a href="#"><i class="fa fa-square color" style="color:white"></i></a></li>
-      <li><a href="#"><i class="fa fa-square color" style="color:blue"></i></a></li>
-      <li><a href="#"><i class="fa fa-square color" style="color:green;"></i></a></li>
-      <li><a href="#"><i class="fa fa-square color" style="color:red"></i></a></li>
-      <li><a href="#"><i class="fa fa-square color" style="color:orange"></i></a></li>
-    </ul>
-  </div>
+
+
+
 <link rel="stylesheet" href="Cube.css">
 <script type="text/javascript" src="Cube.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -112,13 +166,16 @@ function mousemove(e) {
 	}
     var cube = new Cube('mf', {borderLength: 200});
 
-    var aInt = document.getElementById('btns').getElementsByTagName('input');
+    var aInt = document.getElementsByClassName('operation');
+    console.log(aInt)
     for (var i = 0; i < aInt.length; i++) {
+        
         aInt[i].onclick = function () {
-            cube.turn3(this.value);
+            console.log(this.innerHTML)
+            cube.turn3(this.innerHTML.toLowerCase());
         }
     }
-    var aInt2 = document.getElementById('cs').getElementsByTagName('input');
+    var aInt2 = document.getElementById('cs').getElementsByTagName('button');
     aInt2[0].onclick = function () {
         cube.initColor();
     };
@@ -128,14 +185,14 @@ function mousemove(e) {
     aInt2[2].onclick = function () {
         cube.random();
     };
-    aInt2[4].onclick = function () {
+    /*aInt2[4].onclick = function () {
         var value = aInt2[3].value;
         cube.turn3s(value);
     };
     aInt2[6].onclick = function () {
         var value = aInt2[5].value;
         cube.setColorChar(value)
-    };
+    };*/
 
     cube.recovery = function () {
         var ip = "http://124.16.124.95:3000";

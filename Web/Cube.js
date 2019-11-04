@@ -222,7 +222,7 @@ Cube.prototype.setColor = function (colorarr) {
             dom[j].faces[i].onclick = function(){
                 console.log(this.getAttribute("pos"))
                 cubePos = this.getAttribute("pos")
-                $('#color-picker').css({'left': movex,
+                $('#color-picker').css({'left': movex-760,
                 'top': movey,
                 'display':'block'});
                 
