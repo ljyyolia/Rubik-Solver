@@ -12,7 +12,7 @@ $("#show").bind("click",function(){
         }
         cubeStatus.push(surface)
     }
-    $(".cubeStatus").text(cubeStatus)
+    //$(".cubeStatus").text(cubeStatus)
   });
 //solveStep = ['l','r','d','u'] //待旋转的魔方序列
 $("#solve").bind("click",function(){
@@ -303,7 +303,13 @@ $("#convert").bind("click",function(){
         }
     }
 })
-
+$(".blank").bind("click",function(event){
+    console.log('1111')
+    event.stopPropagation(); 
+    $('#color-picker').css({'left': movex,
+                'top': movey,
+                'display':'none'});
+})
 $(".color").bind("click",function(){
     pos = "[pos='"+cubePos+"']"
 
@@ -311,4 +317,20 @@ $(".color").bind("click",function(){
     $('#color-picker').css({'left': movex,
                 'top': movey,
                 'display':'none'});
+})
+$("#right").bind("click",function(){
+    flag = 0
+    console.log($('.ope-result'))
+    operation = $('.ope-result')
+    for(i=0;i<operation.length;i++){
+        console.log(operation[i])
+        if(flag==1){
+            flag=0
+            operation[i].attr('class')='btn btn-success ope-result'
+        }
+        if(operation[i].attr('class')=='btn btn-success ope-result'){
+            flag=1
+            operation[i].attr('class')='btn btn-default ope-result'
+        }
+    }
 })
