@@ -304,7 +304,6 @@ $("#convert").bind("click",function(){
     }
 })
 $(".blank").bind("click",function(event){
-    console.log('1111')
     event.stopPropagation(); 
     $('#color-picker').css({'left': movex,
                 'top': movey,
@@ -318,19 +317,60 @@ $(".color").bind("click",function(){
                 'top': movey,
                 'display':'none'});
 })
-$("#right").bind("click",function(){
+function PlaySolution(){
     flag = 0
-    console.log($('.ope-result'))
-    operation = $('.ope-result')
+    operation = document.getElementsByClassName('ope-result')
     for(i=0;i<operation.length;i++){
-        console.log(operation[i])
-        if(flag==1){
-            flag=0
-            operation[i].attr('class')='btn btn-success ope-result'
-        }
-        if(operation[i].attr('class')=='btn btn-success ope-result'){
+        console.log(operation[i].getAttribute("class"))
+        if(operation[i].getAttribute("class")=='btn btn-success ope-result'){
             flag=1
-            operation[i].attr('class')='btn btn-default ope-result'
+            operation[i].setAttribute("class",'btn btn-default ope-result')
+            if(i==operation.length-1){
+                alert('魔方已被还原')
+                window.clearInterval(t1)
+            }
         }
+        else if(flag==1){
+            console.log(1)
+            flag=0
+            operation[i].setAttribute("class",'btn btn-success ope-result')
+        }
+
     }
+}
+function BackPlaySolution(){
+    flag = 0
+    operation = document.getElementsByClassName('ope-result')
+    for(i=operation.length-1;i>=0;i--){
+        console.log(i)
+        console.log(operation[i].getAttribute("class"))
+        if(operation[i].getAttribute("class")=='btn btn-success ope-result'){
+            flag=1
+            operation[i].setAttribute("class",'btn btn-default ope-result')
+            if(i==operation.length-1){
+                alert('魔方已被还原')
+                window.clearInterval(t1)
+            }
+        }
+        else if(flag==1){
+            console.log(1)
+            flag=0
+            operation[i].setAttribute("class",'btn btn-success ope-result')
+        }
+
+    }
+}
+$("#right").bind("click",PlaySolution)
+$("#left").bind("click",BackPlaySolution)
+$("#play").bind("click",function(){
+    
+    playclass = document.getElementById('playicon').getAttribute('class')
+    if(playclass=='fa  fa-play'){
+        document.getElementById('playicon').setAttribute("class",'fa  fa-pause')
+        t1=window.setInterval(PlaySolution,1000)
+    }else{
+        document.getElementById('playicon').setAttribute("class",'fa  fa-play')
+        window.clearInterval(t1)
+    }
+    
 })
