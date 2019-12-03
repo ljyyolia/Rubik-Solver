@@ -1,8 +1,12 @@
-# Rubik-Solver
+# Rubik's Cube Master
+- An application to help you solve any Rubik's Cube and challenge yourself with an online **Rubik's Cube Master** based on [**Solve the Rubik's Cube Using Deep Learning**](http://deepcube.igb.uci.edu/).
 
-## Some issues to know
+## Environment
+- python 3.7.4
+- tensorflow-gpu 1.14.0
+- dm-sonnet 1.11
 
-1. The test environment is
-    - Python 3.7.4
-    - tensorflow-gpu 1.14.0
-    - dm-sonnet 1.11
+## Install
+- conda install tensorflow-gpu=1.14
+- pip install dm-sonnet=1.11
+
