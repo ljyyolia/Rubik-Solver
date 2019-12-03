@@ -19,6 +19,26 @@ from ..ml_utils import nnet_utils
 from ..ml_utils import search_utils
 
 import threading
+import inspect
+import ctypes
+ 
+def _async_raise(tid, exctype):
+    """raises the exception, performs cleanup if needed"""
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exctype):
+        exctype = type(exctype)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
+ 
+def stop_thread(thread):
+    _async_raise(thread.ident, SystemExit)
+
 
 class MyThread(threading.Thread):
 
@@ -26,7 +46,6 @@ class MyThread(threading.Thread):
         super(MyThread,self).__init__()
         self.func = func
         self.args = args
-        self._stop_event = threading.Event()
 
     def run(self):
         self.result = self.func(*self.args)
@@ -36,12 +55,6 @@ class MyThread(threading.Thread):
             return self.result
         except Exception:
             return None
-
-    def stop(self):
-        self._stop_event.set()
-
-    def stopped(self):
-        return self._stop_event.is_set()
 
 def validSoln(state,soln,Environment):
     solnState = state
@@ -140,8 +153,7 @@ def solve_state(state, wait_time = 5, nnet_parallel = 100, depth_penalty = 0.2, 
     t.join(wait_time)
     data = t.get_result()
     if data == None:
-        t.stop()
-        t.join()
+        stop_thread(t)
         return False, data
     else:
         return True, data
