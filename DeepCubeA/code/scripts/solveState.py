@@ -18,7 +18,30 @@ import gc
 from ..ml_utils import nnet_utils
 from ..ml_utils import search_utils
 
+import threading
 
+class MyThread(threading.Thread):
+
+    def __init__(self,func,args=()):
+        super(MyThread,self).__init__()
+        self.func = func
+        self.args = args
+        self._stop_event = threading.Event()
+
+    def run(self):
+        self.result = self.func(*self.args)
+
+    def get_result(self):
+        try:
+            return self.result
+        except Exception:
+            return None
+
+    def stop(self):
+        self._stop_event.set()
+
+    def stopped(self):
+        return self._stop_event.is_set()
 
 def validSoln(state,soln,Environment):
     solnState = state
@@ -110,6 +133,18 @@ def solveState(state):
     print("State: %s" % (solveStr), file=sys.stderr)
     print(data['state'])
     print(data["solution"])
+
+def solve_state(state, wait_time = 5, nnet_parallel = 100, depth_penalty = 0.2, bfs = 0):
+    t = MyThread(run_nnet, (state, nnet_parallel, depth_penalty, bfs,))
+    t.start()
+    t.join(wait_time)
+    data = t.get_result()
+    if data == None:
+        t.stop()
+        t.join()
+        return False, data
+    else:
+        return True, data
 
     
 '''
