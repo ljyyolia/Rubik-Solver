@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>visualization</title>
+    <script src="echarts.min.js"></script>
+</head>
+<body>
+    <div id="main1" style="width: 800px;height:300px;"></div>
+    <script type="text/javascript">
+        var myChart1 = echarts.init(document.getElementById('main1'));
+
+        var human_series=['1ABC','2BCD','3DFG','4ABC','5BCD','6DFG','7ABC','8BCD','9DFG','10HJK'];
+        var machine_series=['ABC','BCD','DFG','ABC','BCD','DFG','ABC','BCD','DFG','HJK'];
+        var step_index=[1,2,3,4,5,6,7,8,9,10];
+        var machine_step=[9,8,7,6,5,4,3,4,2,1];
+        
+        var option1 = {
+            title: {
+                text: '人机对比',
+            },
+            tooltip: {
+                trigger:'axis',
+                
+                formatter(params){
+                    // console.log(params);
+                    var res='<div><p>human：'+human_series[params[0].dataIndex]+'<\p><p>machine：'+machine_series[params[0].dataIndex]+'<\p><\div>';
+                    return res;
+                },
+                textStyle : {
+                    color: 'white',
+                    decoration: 'none',
+                    fontFamily: 'Verdana, sans-serif',
+                    fontSize: 15,
+                    fontStyle: 'italic',
+                    fontWeight: 'bold'
+                }
+            },
+            legend: {
+            },
+            xAxis: {
+                name:'步数',
+                data: step_index
+            },
+            yAxis: {
+                name:'机器还原所需步数'
+            },
+            series: [{
+                type: 'line',
+                data: machine_step
+            }]
+        };
+        myChart1.setOption(option1);
+    </script>
+</body>
+</html>
