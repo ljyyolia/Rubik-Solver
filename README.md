@@ -5,8 +5,10 @@
 - python 3.7.4
 - tensorflow-gpu 1.14.0
 - dm-sonnet 1.11
+- flask 1.1.1
 
 ## Install
 - conda install tensorflow-gpu=1.14
+- conda install flask=1.1
 - pip install dm-sonnet=1.11
 
