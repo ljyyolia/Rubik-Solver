@@ -96,6 +96,9 @@
                     <button type="button" class="btn bg-olive" style="margin-right: 5px;">
                         <i class="fa fa-hand-stop-o"></i> 重置位置
                     </button>
+                    <button type="button" class="btn bg-olive" style="margin-right: 5px;" id="opposite">
+                        <i class="fa fa-hand-stop-o"></i> 反向
+                    </button>
                 <div style="margin-top:15px">
                     <button type="button" class="btn bg-olive" style="margin-right: 5px;">
                         <i class="fa fa-download"></i> 随机打乱
@@ -208,7 +211,7 @@ function mousemove(e) {
     aInt2[1].onclick = function () {
         cube.initL([-22.5,-45,22.5]);
     };
-    aInt2[2].onclick = function () {
+    aInt2[3].onclick = function () {
         cube.random();
     };
     /*aInt2[4].onclick = function () {
@@ -239,9 +242,6 @@ function mousemove(e) {
             });
 
 
-    };
-    aInt2[7].onclick = function () {
-        cube.recovery(aInt2[5].value)
     };
 </script>
 

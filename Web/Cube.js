@@ -103,6 +103,7 @@ function Cube(id, opts) {
     //this.initColors=this.opts.colors||[['none'],['none'],['none'],['none'],['none'],['none']];
     this.initColor();
     this.initL([-22.5,-45,22.5]);
+    //this.initL([-38,-235,30]);
     //给容器加旋转事件
     this.containerMouseMove();
 
