@@ -322,7 +322,9 @@ function getStatus(){
     }
     return newCubeStatus
 }
-$(".blank").bind("click",function(event){
+$(".tab-content").bind("click",function(event){
+    console.log('1111')
+    console.log(this)
     event.stopPropagation(); 
     $('#color-picker').css({'left': movex,
                 'top': movey,
@@ -331,25 +333,43 @@ $(".blank").bind("click",function(event){
 $("#opposite").bind("click",function(event){
     cube.initL([-38,-235,30]);
 })
+function CheckColor(nowcolor){
+    colordict = {
+        'red':0,'orange':0,'green':0,'white':0,'yellow':0,'blue':0
+    }
+    
+    for(i=0;i<6;i++){
+        for(j=0;j<9;j++){
+            if (nowcolor[i][j]!=-1)
+            colordict[nowcolor[i][j]]++
+        }
+    }
+    console.log(colordict)
+    for(var key in colordict){
+        if(colordict[key]>8) {
+            alert('魔方涂色错误，请检查')
+            return false
+        }
+        
+    }
+    return true
+}
+nowcolor = []
+for(i=0;i<6;i++){
+    surface = []
+    for(j=0;j<9;j++){
+        surface.push(-1)
+    }
+    nowcolor.push(surface)
+}
 $(".color").bind("click",function(){
     //console.log(pos2CubeNum.indexOf(cubePos))  //获取目前赋色的块在最终输入中的位置
     pos = "[pos='"+cubePos+"']"
-    colorindex = colorarray.indexOf(this.style['color'])
+    //colorindex = colorarray.indexOf(this.style['color'])
     //console.log(colorindex)
-    $(pos)[0].style['background'] = this.style['color']
-    for(i=0;i<cornerCube.length;i++){
-        if(cornerCube[i].indexOf(cubePos)!=-1){
-            index = cornerCube[i].indexOf(cubePos)
-            for(j=0;j<3;j++){
-                if(j!=index){
-                    pos = "[pos='"+cornerCube[i][j]+"']"
-                    $(pos)[0].style['background']
-                    console.log(cornerCube[i][j])
-                } 
-            }
-        }
-    }
-    
+    thisindex = cubePos.split(',')
+    nowcolor[parseInt(thisindex[0])][parseInt(thisindex[1])] = this.style['color']
+    if(CheckColor(nowcolor))  $(pos)[0].style['background'] = this.style['color']
     $('#color-picker').css({'left': movex,
                 'top': movey,
                 'display':'none'});
@@ -361,7 +381,7 @@ function PlaySolution(){
     for(i=0;i<operation.length;i++){
         console.log(operation[i].getAttribute("class"))
         if(operation[i].getAttribute("class")=='btn btn-success ope-result'){
-            cube.turn3(document.getElementsByClassName('btn-success')[0].innerHTML.toLowerCase().replace(/\s*/g,""));
+            cube.turn3(operation[i].innerHTML.toLowerCase().replace(/\s*/g,""));
             flag=1
             operation[i].setAttribute("class",'btn btn-default ope-result')
             if(i==operation.length-1){
@@ -370,7 +390,6 @@ function PlaySolution(){
             }
         }
         else if(flag==1){
-            console.log(1)
             flag=0
             operation[i].setAttribute("class",'btn btn-success ope-result')
         }
@@ -383,7 +402,7 @@ function BackPlaySolution(){
     operation = document.getElementsByClassName('ope-result')
     for(i=operation.length-1;i>=0;i--){
         if(operation[i].getAttribute("class")=='btn btn-success ope-result'){
-            cube.turn3(converse_operation[operation[i-1].innerHTML.toLowerCase().replace(/\s*/g,"")]);
+            cube.turn3(converse_operation[operation[i].innerHTML.toLowerCase().replace(/\s*/g,"")]);
             flag=1
             operation[i].setAttribute("class",'btn btn-default ope-result')
             if(i==operation.length-1){
