@@ -134,7 +134,7 @@ Cube.prototype.initStyle = function () {
             this.boxsData[i].faces[j].style.position = 'absolute';
             this.boxsData[i].faces[j].style.top = this.boxsData[i].faces[j].style.left = 0;
             this.boxsData[i].faces[j].style.width = this.boxsData[i].faces[j].style.height = '100%';
-            this.boxsData[i].faces[j].style.border = '2px solid ' + this.vColor;//设置边线 默认2px
+            this.boxsData[i].faces[j].style.border = '2px solid ' + 'rgb(0,0,0)';//设置边线 默认2px
             this.boxsData[i].faces[j].style.boxSizing = 'border-box';//设置边线 属性
             this.boxsData[i].faces[j].style.background = this.vColor; //设置面的原始颜色 同材料颜色
             this.boxsData[i].faces[j].style.borderRadius = parseInt(this.boxBorderLength / 10) + 'px'; //设置面的圆角，默认每小块的1/10
@@ -224,9 +224,12 @@ Cube.prototype.setColor = function (colorarr) {
             dom[j].faces[i].onclick = function(){
                 console.log(this.getAttribute("pos"))
                 cubePos = this.getAttribute("pos")
-                $('#color-picker').css({'left': movex-760,
-                'top': movey-200,
-                'display':'block'});
+                if(isDiyColor==true){
+                    $('#color-picker').css({'left': movex-760,
+                    'top': movey-200,
+                    'display':'block'});   
+                }
+
                 
             }
         }

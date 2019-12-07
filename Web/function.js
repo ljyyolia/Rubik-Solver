@@ -1,3 +1,4 @@
+
 cubeStatus = [] //存放顺序为上下左右前后
 $("#show").bind("click",function(){
     cubeStatus = []
@@ -176,12 +177,8 @@ $("#solve").bind("click",function(){
 colorarray = ['yellow','white','blue','green','red','orange']
 cornerCube = [['0,0','2,0','5,0'],['0,6','2,6','4,0'],['0,8','3,6','4,2'],['1,6','2,8','4,6'],['1,8','3,8','4,8'],
 ['0,2','3,0','5,2'],['1,0','2,2','5,6'],['1,2','3,2','5,8']]
-cornerColor = {
-    'yellow':{
-        'red':'green','green':'red'},
-    'yellow':{
-        'red':'green','green':'red'},
-        }
+cornerColor = [['yellow','green','red'],['yellow','red','blue'],['yellow','blue','orange'],['yellow','green','orange'],
+['white','orange','green'],['white','red','green'],['white','red','blue'],['white','orange','blue']]
 cornerCubeNum = [ //0：黄色，1：白色，2：蓝色，3：绿色，4：红色，5：橙色
     [[0,2,4],[6,6,0],[0,26,47]],
     [[0,3,4],[8,6,2],[6,29,53]],
@@ -347,10 +344,39 @@ function CheckColor(nowcolor){
     console.log(colordict)
     for(var key in colordict){
         if(colordict[key]>8) {
-            alert('魔方涂色错误，请检查')
+            alert('魔方各颜色总数错误，请检查')
             return false
         }
-        
+    }
+    
+    cornerFlags = []  //检查8个角的涂色是否正确，有一个不正确则是有错误
+    for(i=0;i<8;i++){
+        nowCornerColor = []
+        for(j=0;j<3;j++){
+            posi = cornerCubeNum[i][0][j]
+            posj = cornerCubeNum[i][1][j]
+            nowCornerColor.push(nowcolor[posi][posj])
+        }
+        if(nowCornerColor.indexOf(-1)==-1){
+            cornerFlag = 0
+            for(j=0;j<8;j++){
+                //console.log(cornerColor[j].sort().toString())
+                //console.log(nowCornerColor.sort().toString())
+                //console.log(cornerColor[j].sort().toString() === nowCornerColor.sort().toString())
+                if(cornerColor[j].sort().toString() === nowCornerColor.sort().toString()==true) cornerFlag = 1
+            }
+            if(cornerFlag == 0) cornerFlags.push(0)
+            else cornerFlags.push(1)
+        }else{
+            cornerFlags.push(1)
+        }
+
+
+    }
+    console.log(cornerFlags)
+    if(cornerFlags.indexOf(0)>-1){
+        alert('角块涂色错误，请检查')
+        return false
     }
     return true
 }
@@ -370,6 +396,7 @@ $(".color").bind("click",function(){
     thisindex = cubePos.split(',')
     nowcolor[parseInt(thisindex[0])][parseInt(thisindex[1])] = this.style['color']
     if(CheckColor(nowcolor))  $(pos)[0].style['background'] = this.style['color']
+    else nowcolor[parseInt(thisindex[0])][parseInt(thisindex[1])] = -1
     $('#color-picker').css({'left': movex,
                 'top': movey,
                 'display':'none'});
@@ -435,6 +462,15 @@ $("#play").bind("click",function(){
     
 })
 $("#empty").bind("click",function(){
+    isDiyColor = true
+    nowcolor = []
+    for(i=0;i<6;i++){
+        surface = []
+        for(j=0;j<9;j++){
+            surface.push(-1)
+        }
+        nowcolor.push(surface)
+    }
     emptycube = []
 
     for(i=0;i<$('[pos]').length;i++){
