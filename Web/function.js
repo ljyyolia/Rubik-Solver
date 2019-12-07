@@ -344,7 +344,9 @@ function CheckColor(nowcolor){
     console.log(colordict)
     for(var key in colordict){
         if(colordict[key]>8) {
-            alert('魔方各颜色总数错误，请检查')
+            $('.alert-dismissible')[2].style['display'] = 'block'
+            $('#error').text('魔方各颜色总数错误，请检查')
+        
             return false
         }
     }
@@ -370,12 +372,11 @@ function CheckColor(nowcolor){
         }else{
             cornerFlags.push(1)
         }
-
-
     }
     console.log(cornerFlags)
     if(cornerFlags.indexOf(0)>-1){
-        alert('角块涂色错误，请检查')
+        $('.alert-dismissible')[2].style['display'] = 'block'
+        $('#error').text('魔方角块颜色错误，请检查')
         return false
     }
     return true
@@ -408,11 +409,13 @@ function PlaySolution(){
     for(i=0;i<operation.length;i++){
         console.log(operation[i].getAttribute("class"))
         if(operation[i].getAttribute("class")=='btn btn-success ope-result'){
-            cube.turn3(operation[i].innerHTML.toLowerCase().replace(/\s*/g,""));
+            if(i!=operation.length-1)
+                cube.turn3(operation[i+1].innerHTML.toLowerCase().replace(/\s*/g,""));
             flag=1
             operation[i].setAttribute("class",'btn btn-default ope-result')
             if(i==operation.length-1){
-                alert('魔方已被还原')
+                $('.alert-dismissible')[3].style['display'] = 'block'
+                document.getElementById('playicon').setAttribute("class",'fa  fa-pause')
                 window.clearInterval(t1)
             }
         }
@@ -436,7 +439,8 @@ function BackPlaySolution(){
                 
                 window.clearInterval(t1)
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
-                alert('魔方已被还原')
+                $('.alert-dismissible')[3].style['display'] = 'block'
+                document.getElementById('playicon').setAttribute("class",'fa  fa-pause')
             }
         }
         else if(flag==1){
@@ -480,4 +484,10 @@ $("#empty").bind("click",function(){
         $('[pos]')[i].style['background'] = 'rgb(220,220,220)'
     }
     
+})
+$('.close').bind("click",function(){
+    $('.alert-dismissible')[2].style['display'] = 'none'
+})
+$('#close2').bind("click",function(){
+    $('.alert-dismissible')[3].style['display'] = 'none'
 })
