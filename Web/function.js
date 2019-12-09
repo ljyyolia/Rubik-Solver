@@ -17,7 +17,7 @@ $("#show").bind("click",function(){
   });
 //solveStep = ['l','r','d','u'] //待旋转的魔方序列
 $("#solve").bind("click",function(){
-    /*cubeStatus = []
+    cubeStatus = []
     for(i=0;i<6;i++){
         surface = []
         for(j=0;j<9;j++){
@@ -28,8 +28,8 @@ $("#solve").bind("click",function(){
             else surface.push(colorType.indexOf(color));
         }
         cubeStatus.push(surface)
-    }*/
-    $(".cubeStatus").text(cubeStatus)
+    }
+    //$(".cubeStatus").text(cubeStatus)
     newCubeStatus = new Array(54).fill(-1)
     centerCube = [4,13,22,31,40,49]
     cornerCube = {
@@ -151,34 +151,77 @@ $("#solve").bind("click",function(){
         newCubeStatus[Num[2][0]] = edgeCube[aedge][cubeStatus[Num[0][0]][Num[1][0]]]
         newCubeStatus[Num[2][1]] = edgeCube[aedge][cubeStatus[Num[0][1]][Num[1][1]]]
     }
-    $(".cubeStatus").text(newCubeStatus)
+    //$(".cubeStatus").text(newCubeStatus)
     for(i=0;i<54;i++){
         if(newCubeStatus.indexOf(i)==-1) {
             console.log(i)
         }
     }
-    i = 0
-    function singleTurn() {
-        if(i>=solveStep.length){
-            return;
-        }else{
-            cube.turn3(solveStep[i], function () {
-                var timeout = setTimeout(function () {
-                    clearTimeout(timeout);
-                    i++;
-                    singleTurn();
-                }, 0);
-            })
+    /*console.log('点击了求解按钮')
+    var formData = new FormData();
+    var status = newCubeStatus
+    //formData.append('query', $("#query").val())
+    formData.append('query', status)
+    //formData.append('video', document.getElementById("videoFile").files[0])
+    $.ajax({
+            url:"solve",
+            type:"POST",
+            data:formData,
+            processData:false,
+            contentType:false,
+            success: function (result) {
+                console.log(result)
+
+            }
+    })*/
+    result={
+        'ret':true,
+        'data':{
+            'solution':[['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1]]
         }
     }
-    singleTurn();
-    //cube.turn3(solveStep.shift())
+    //ret表示模型求解是否成功，若为False，代表魔方状态不可解（即超时），此时data为None；
+    //若ret为True，代表求解成功，返回的data为词典数据，包含了data["state"]、data["time"]、data["nodesGenerated_num"]、data["solution"]
+    if(result['ret']==true){
+        var start = document.createElement("span")
+        start.setAttribute('class','btn btn-success ope-result')
+        start.setAttribute('style','width:50px')
+        start.innerText = '开始'
+        var end = document.createElement("span")
+        end.setAttribute('class','btn btn-default ope-result')
+        end.setAttribute('style','width:50px')
+        end.innerText = '结束'
+        var div = document.getElementById('solution')
+        $('#solution').empty()
+        div.appendChild(start)
+        for(i=0;i<result['data']['solution'].length;i++){  //
+            var span = document.createElement('span')
+            span.setAttribute("class","btn btn-default ope-result")
+            if(result['data']['solution'][i][1]==1){
+                span.innerText = result['data']['solution'][i][0]
+            }else{
+                span.innerText = result['data']['solution'][i][0]+'\''
+            }
+            div.appendChild(span)
+        }
+        div.appendChild(end)
+        $('.playandpause')[0].style['display'] = 'block'
+    }else{
+        $('.alert-dismissible')[2].style['display'] = 'block'
+        $('#error').text('魔方涂色错误，请检查')
+    }
+ 
 })
 colorarray = ['yellow','white','blue','green','red','orange']
 cornerCube = [['0,0','2,0','5,0'],['0,6','2,6','4,0'],['0,8','3,6','4,2'],['1,6','2,8','4,6'],['1,8','3,8','4,8'],
 ['0,2','3,0','5,2'],['1,0','2,2','5,6'],['1,2','3,2','5,8']]
 cornerColor = [['yellow','green','red'],['yellow','red','blue'],['yellow','blue','orange'],['yellow','green','orange'],
 ['white','orange','green'],['white','red','green'],['white','red','blue'],['white','orange','blue']]
+edgeColor = [['yellow','white'],['green','blue'],['red','orange']]
+for(i=0;i<edgeColor.length;i++){
+    edgeColor[i] = edgeColor[i].sort().toString()
+}
+console.log(edgeColor)
 cornerCubeNum = [ //0：黄色，1：白色，2：蓝色，3：绿色，4：红色，5：橙色
     [[0,2,4],[6,6,0],[0,26,47]],
     [[0,3,4],[8,6,2],[6,29,53]],
@@ -346,13 +389,12 @@ function CheckColor(nowcolor){
         if(colordict[key]>8) {
             $('.alert-dismissible')[2].style['display'] = 'block'
             $('#error').text('魔方各颜色总数错误，请检查')
-        
             return false
         }
     }
     
     cornerFlags = []  //检查8个角的涂色是否正确，有一个不正确则是有错误
-    for(i=0;i<8;i++){
+    for(i=0;i<8;i++){  //查找棱块
         nowCornerColor = []
         for(j=0;j<3;j++){
             posi = cornerCubeNum[i][0][j]
@@ -372,6 +414,27 @@ function CheckColor(nowcolor){
         }else{
             cornerFlags.push(1)
         }
+    }
+    for(i=0;i<12;i++){
+        //查找角块
+        nowEdgeColor = []
+        for(j=0;j<2;j++){
+            posi = edgeCubeNum[i][0][j]
+            posj = edgeCubeNum[i][1][j]
+            nowEdgeColor.push(nowcolor[posi][posj])
+        }
+        if(nowEdgeColor.indexOf(-1)==-1){
+            edgeflag = 1
+            for(m=0;m<3;m++){
+                if(nowEdgeColor.sort().toString() === edgeColor[m]==true) edgeflag = 0
+            }
+            if(edgeflag==0){
+                $('.alert-dismissible')[2].style['display'] = 'block'
+                $('#error').text('魔方棱块颜色错误，请检查')
+                return false
+            }
+        }
+
     }
     console.log(cornerFlags)
     if(cornerFlags.indexOf(0)>-1){
@@ -415,7 +478,8 @@ function PlaySolution(){
             operation[i].setAttribute("class",'btn btn-default ope-result')
             if(i==operation.length-1){
                 $('.alert-dismissible')[3].style['display'] = 'block'
-                document.getElementById('playicon').setAttribute("class",'fa  fa-pause')
+                document.getElementById('playicon').setAttribute("class",'fa  fa-play')
+                operation[0].setAttribute("class",'btn btn-success ope-result') 
                 window.clearInterval(t1)
             }
         }
@@ -440,7 +504,8 @@ function BackPlaySolution(){
                 window.clearInterval(t1)
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
                 $('.alert-dismissible')[3].style['display'] = 'block'
-                document.getElementById('playicon').setAttribute("class",'fa  fa-pause')
+                document.getElementById('playicon').setAttribute("class",'fa  fa-play')
+                operation[0].setAttribute("class",'btn btn-success ope-result') 
             }
         }
         else if(flag==1){
