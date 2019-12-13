@@ -16,9 +16,10 @@ def solve(request):
     testState = np.array(status)
     print(testState)
     ret, data = solve_state(testState)
-    data['state'] = data['state'].tolist()
     print(ret)
     print(data)
+    data['state'] = data['state'].tolist()
+
     context['ret'] = ret
     context['data'] = data
     return HttpResponse(json.dumps(context),content_type='application/json')
