@@ -142,11 +142,6 @@ $("#solve").bind("click",function(){
         aedge=[cubeStatus[Num[0][0]][Num[1][0]],cubeStatus[Num[0][1]][Num[1][1]]]
         aedge.sort(function(a, b){return a - b}); 
         aedge = aedge+''
-        console.log(Num[0][0],Num[1][0])
-        console.log(Num[0][1],Num[1][1])
-        console.log(aedge)
-        console.log(Num[2][0])
-        console.log(cubeStatus[Num[0][0]][Num[1][0]])
         newCubeStatus[Num[2][0]] = edgeCube[aedge][cubeStatus[Num[0][0]][Num[1][0]]]
         newCubeStatus[Num[2][1]] = edgeCube[aedge][cubeStatus[Num[0][1]][Num[1][1]]]
     }
@@ -170,6 +165,35 @@ $("#solve").bind("click",function(){
                 contentType:false,
                 success: function (result) {
                     console.log(result)
+                    if(result['ret']==true){
+                        var start = document.createElement("span")
+                        start.setAttribute('class','btn btn-success ope-result')
+                        start.setAttribute('style','width:50px')
+                        start.innerText = '开始'
+                        var end = document.createElement("span")
+                        end.setAttribute('class','btn btn-default ope-result')
+                        end.setAttribute('style','width:50px')
+                        end.innerText = '结束'
+                        var div = document.getElementById('solution')
+                        $('#solution').empty()
+                        div.appendChild(start)
+                        for(i=0;i<result['data']['solution'].length;i++){  //
+                            var span = document.createElement('span')
+                            span.setAttribute("class","btn btn-default ope-result")
+                            if(result['data']['solution'][i][1]==1){
+                                span.innerText = result['data']['solution'][i][0]
+                            }else{
+                                span.innerText = result['data']['solution'][i][0]+'\''
+                            }
+                            div.appendChild(span)
+                        }
+                        div.appendChild(end)
+                        $('.playandpause')[0].style['display'] = 'block'
+                        $('#solution')[0].style['display'] = 'block'
+                    }else{
+                        $('.alert-dismissible')[3].style['display'] = 'block'
+                        $('#error').text('魔方涂色错误，请检查')
+                    }
 
                 }
         })
