@@ -46,6 +46,10 @@
 <link rel="stylesheet" href="{%static 'adminLTE/dist/css/skins/_all-skins.min.css'%}">
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<link rel="stylesheet" href="{%static 'Cube.css'%}">
+<script type="text/javascript" src="{%static 'Cube.js'%}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js'%}"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 <!---->
@@ -59,28 +63,32 @@
         <div class="nav-tabs-custom">
 
             <div class="row" style="margin-top: 20px">
-                <div class="col-xs-3"></div>
-                <a href="#tab_1" data-toggle="tab" style="text-decoration:none;">
+                <div class="col-xs-2"></div>
+                <a href="#tab_3" data-toggle="tab" style="text-decoration:none;" id="exploremode">
+                    <div class="alert alert-info alert-dismissible col-xs-2" style="text-align: center">
+                        <h4 style="margin:auto"><i class="icon fa fa-warning"></i>探索模式</h4>
+                    </div>
+                </a>
+                <div class="col-xs-1"></div>
+                <a href="#tab_1" data-toggle="tab" style="text-decoration:none;" id="solvemode">
                     <div class="alert alert-success alert-dismissible col-xs-2" style="text-align: center">
                         <h4 style="margin:auto"><i class="icon fa fa-check"></i> 求解模式</h4>
                     </div>
                 </a>
-                <div class="col-xs-2"></div>
-                <a href="#tab_2" data-toggle="tab" style="text-decoration:none;">
+                <div class="col-xs-1"></div>
+                <a href="#tab_2" data-toggle="tab" style="text-decoration:none;" id="challengemode">
                     <div class="alert alert-warning alert-dismissible col-xs-2" style="text-align: center">
                         <h4 style="margin:auto"><i class="icon fa fa-warning"></i>挑战模式</h4>
                     </div>
                 </a>
-                <div class="col-xs-3"></div>
+                <div class="col-xs-2"></div>
             </div>
             <div class="row">
                 <div class="col-xs-6">
                     <div id="mf" style="margin:120px auto;"></div>
                 </div>
                 <div class="tab-content col-xs-6">
-
-
-                    <div class="tab-pane active" id="tab_1">
+                    <div class="tab-pane" id="tab_1">
                         <div class="blank" style="height:398px">
                             <div class="btn-group" id='color-picker'
                                 style="position:absolute;background-color:cornsilk;display:none">
@@ -103,9 +111,6 @@
                                                         <input type="button" style="margin-top:10px" value="设置颜色"/>
                                                         <input type="button" style="margin-top:10px" value="还原"/>-->
                                     <div style="width:300px;">
-                                        <button type="button" class="btn bg-olive" style="margin-right: 5px;">
-                                            <i class="fa fa-refresh"></i> 重置颜色
-                                        </button>
                                         <button type="button" class="btn bg-olive" style="margin-right: 5px;">
                                             <i class="fa fa-hand-stop-o"></i> 重置位置
                                         </button>
@@ -137,70 +142,19 @@
 
                                     </div>
 
-                                    <div class="box-body solution" style="margin-top:10px;width:60%;padding:0">
-                                        <span class="btn btn-default ope-result" style="width:50px">
-                                            开始
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            U
-                                        </span>
-                                        <span class="btn btn-success ope-result">
-                                            D
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            U'
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            L
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            R
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            U
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            U
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            F
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            U'
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            L
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            R
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            U
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            U
-                                        </span>
-                                        <span class="btn btn-default ope-result">
-                                            F
-                                        </span>
-                                        <span class="btn btn-default ope-result" style="width:50px">
-                                            结束
-                                        </span>
-                                        <div style="margin:20px auto;width:150px">
-                                                <button type="button" class="btn bg-default" id='left'
-                                                    style="margin-right: 5px">
+                                    <div class="box-body solution">
+                                        <div id='solution'></div>
+                                        <div class="playandpause" style="display:none">
+                                                <button type="button" class="btn bg-default" id='left'>
                                                     <i class="fa  fa-chevron-left"></i>
                                                 </button>
-                                                <button type="button" class="btn bg-default" id="play"
-                                                    style="margin-right: 5px">
+                                                <button type="button" class="btn bg-default" id="play">
                                                     <i class="fa  fa-play" id="playicon"></i>
                                                 </button>
-                                                <button type="button" class="btn bg-default" id="right"
-                                                    style="margin-right: 5px">
+                                                <button type="button" class="btn bg-default" id="right">
                                                     <i class="fa  fa-chevron-right"></i>
                                                 </button>
-        
-                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="cubeStatus"></div>
@@ -227,21 +181,14 @@
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_2">
                         <div class="blank" style="height:398px">
-                            <div class="btn-group" id='color-picker'
-                                style="position:absolute;background-color:cornsilk;display:none">
-                                <ul class="fc-color-picker" id="color-chooser" style="margin:0 5px">
-                                    <li><a href="#"><i class="fa fa-square color" style="color:yellow"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-square color" style="color:white"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-square color" style="color:blue"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-square color" style="color:green;"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-square color" style="color:red"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-square color" style="color:orange"></i></a></li>
-                                </ul>
-                            </div>
                             <div style="margin-top:100px">
-                                    <button type="button" class="btn btn-warning" id="startCha" style="margin-right: 5px;margin-bottom:30px">
+                                        <button type="button" class="btn btn-warning" id="startCha" style="margin-right: 5px;margin-bottom:30px">
                                             <i class="fa fa-hourglass-1"></i> 开始挑战
                                         </button>
+                                        <button type="button" class="btn btn-warning" id="txt" style="margin-right: 5px;margin-bottom:30px">
+                                            <i class="fa fa-hourglass-1"></i>
+                                        </button>
+
                                 <div id="btns" class="btns" style="width:300px;">
                                     <div style="margin-bottom: 10px">
                                         <button type="button" class="btn btn-default operation">U</button>
@@ -289,6 +236,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane active" id="tab_3">
+                        <div class="blank" style="height:398px">
+                            <div style="margin-top:100px">
+                                <div id="btns" class="btns" style="width:300px;">
+                                    <div style="margin-bottom: 10px">
+                                        <button type="button" class="btn btn-default operation">U</button>
+                                        <button type="button" class="btn btn-default operation">D</button>
+                                        <button type="button" class="btn btn-default operation">L</button>
+                                        <button type="button" class="btn btn-default operation">R</button>
+                                        <button type="button" class="btn btn-default operation">F</button>
+                                        <button type="button" class="btn btn-default operation">B</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-default operation">U'</button>
+                                        <button type="button" class="btn btn-default operation">D'</button>
+                                        <button type="button" class="btn btn-default operation">L'</button>
+                                        <button type="button" class="btn btn-default operation">R'</button>
+                                        <button type="button" class="btn btn-default operation">F'</button>
+                                        <button type="button" class="btn btn-default operation">B'</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="cs" id="cs" style="width:400px;">
+                                    <div style="margin-top:30px">
+                                        <button type="button" class="btn bg-olive" id="resetcolor" style="margin-right: 5px;">
+                                            <i class="fa fa-refresh"></i> 重置颜色
+                                        </button>
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
                     <!-- /.tab-pane -->
                 </div>
             </div>
@@ -302,10 +287,7 @@
 
 
 
-    <link rel="stylesheet" href="{%static 'Cube.css'%}">
-    <script type="text/javascript" src="{%static 'Cube.js'%}"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <script type="text/javascript">
     isDiyColor = false
         movex = 0
@@ -323,7 +305,6 @@
         var aInt = document.getElementsByClassName('operation');
         console.log(aInt)
         for (var i = 0; i < aInt.length; i++) {
-
             aInt[i].onclick = function () {
                 console.log(this.innerHTML)
                 cube.turn3(this.innerHTML.toLowerCase());
@@ -331,23 +312,29 @@
         }
         var aInt2 = document.getElementById('cs').getElementsByTagName('button');
         aInt2[0].onclick = function () {
-            cube.initColor();
-        };
-        aInt2[1].onclick = function () {
             cube.initL([-22.5, -45, 22.5]);
         };
-        aInt2[3].onclick = function () {
+        aInt2[2].onclick = function () {
             cube.random();
+            $('.playandpause')[0].style['display'] = 'none'
+            $('#solution')[0].style['display'] = 'none'
         };
         document.getElementById('startCha').onclick = function () {
-            cube.random();
+            startTime();
         };
         document.getElementById('resetpos').onclick = function () {
-            cube.initL([-22.5, -45, 22.5]);
-        };
+            cube.initL([-22.5, -45, 22.5]);};
         document.getElementById('conreset').onclick = function () {
-            cube.initL([-38,-235,30]);
-        };
+            cube.initL([-38,-235,30]);}
+        document.getElementById('resetcolor').onclick = function () {
+            cube.initColor();}
+        var time = 0
+        function startTime(){
+            setInterval(function(){
+                time++
+                document.getElementById('txt').innerHTML=time+'s'
+            },1000)
+        }
 
     </script>
 
