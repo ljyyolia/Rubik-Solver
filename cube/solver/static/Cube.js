@@ -729,6 +729,7 @@ Cube.prototype.random = function (n) {
     var speed = this.oneTime;
     var order = this.order;
     var coors = ['x', 'y', 'z'];
+    var level = [0,2]
     var linshi = parseInt(1000 / n);
     this.oneTime = linshi < 50 ? 50 : linshi;
 
@@ -738,7 +739,7 @@ Cube.prototype.random = function (n) {
             _this.oneTime = speed;
         } else {
             var coor = coors[_this.getRandom(0, 3)];
-            var num = _this.getRandom(0, order);
+            var num = level[_this.getRandom(0, 2)];
             var dir = _this.getRandom(0, 2);
             _this.turn(coor, num, dir, function () {
                 var timeout = setTimeout(function () {
