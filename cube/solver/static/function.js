@@ -673,8 +673,6 @@ document.getElementById('endCha').onclick = function () {
             }
     })
     $('#echart')[0].style['display'] = 'block'
-    playerStatus = []
-    playerStep = []
 }
 document.getElementById('startCha').onclick = function () {
     if(IsChallenge==false)  {
