@@ -606,14 +606,32 @@ document.getElementById('endCha').onclick = function () {
             contentType:false,
             success: function (result) {
                 console.log(result)
+                machineStep = result['machineStep']
                 var myChart1 = echarts.init(document.getElementById('echart'));
-
-                var human_series = ['1ABC', '2BCD', '3DFG', '4ABC', '5BCD', '6DFG', '7ABC', '8BCD', '9DFG', '10HJK'];
-                var machine_series = ['ABC', 'BCD', 'DFG', 'ABC', 'BCD', 'DFG', 'ABC', 'BCD', 'DFG', 'HJK'];
-                var step_index = [];
-                var machine_step = [9, 8, 7, 6, 5, 4, 3, 4, 2, 1];  //机器每次需要多少步才能解出
-                for(i=0;i<machine_step.length;i++){
+                step_index = [];
+                machineStep = [ [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1], ['F', -1]],
+                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1]],
+                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1]],
+                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1]],
+                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1]],
+                                [['B', 1], ['F', -1], ['R', 1], ['L', -1]],
+                                [['B', 1], ['F', -1], ['R', 1]],
+                                [['B', 1], ['F', -1]],
+                                [['B', 1]],
+                                [],]
+                newmachineStep = []
+                for(i=0;i<machineStep.length;i++){
+                    aStep = []
+                    for(j=0;j<machineStep[i].length;j++){
+                        if(machineStep[i][j][1]==1) aStep.push(machineStep[i][j][0])
+                        else aStep.push(machineStep[i][j][0]+'\'')
+                    }
+                    newmachineStep.push(aStep)
+                }
+                machineStepLen = []
+                for(i=0;i<newmachineStep.length;i++){
                     step_index.push(i)
+                    machineStepLen.push(newmachineStep[i].length)
                 }
                 var option1 = {
                     title: {
@@ -625,10 +643,12 @@ document.getElementById('endCha').onclick = function () {
                             // console.log(params);
                             player = ''
                             for(j=params[0].dataIndex;j<playerStep.length;j++){
-                                player = player+','+playerStep[i]
+                                if (j==params[0].dataIndex) player = playerStep[j]
+                                else player = player+','+playerStep[j]
                             }
+
                             console.log(player)
-                            var res = '<div><p>human：' + player + '<\p><p>machine：' + machine_series[params[0].dataIndex] + '<\p><\div>';
+                            var res = '<div><p>human：' + player + '<\p><p>machine：' + newmachineStep[params[0].dataIndex] + '<\p><\div>';
                             return res;
                         },
                         textStyle: {
@@ -651,7 +671,7 @@ document.getElementById('endCha').onclick = function () {
                     },
                     series: [{
                         type: 'line',
-                        data: machine_step
+                        data: machineStepLen
                     }]
                 };
                 myChart1.setOption(option1);
@@ -661,72 +681,3 @@ document.getElementById('endCha').onclick = function () {
     $('#echart')[0].style['display'] = 'block'
 }
 result={'machineStep':1}
-machineStep = result['machineStep']
-var myChart1 = echarts.init(document.getElementById('echart'));
-step_index = [];
-machineStep = [ [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1], ['F', -1]],
-                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1]],
-                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1]],
-                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1]],
-                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1]],
-                [['B', 1], ['F', -1], ['R', 1], ['L', -1]],
-                [['B', 1], ['F', -1], ['R', 1]], 
-                [['B', 1], ['F', -1]],
-                [['B', 1]],
-                [],]
-newmachineStep = []
-for(i=0;i<machineStep.length;i++){
-    aStep = []
-    for(j=0;j<machineStep[i].length;j++){
-        if(machineStep[i][j][1]==1) aStep.push(machineStep[i][j][0])
-        else aStep.push(machineStep[i][j][0]+'\'')
-    }
-    newmachineStep.push(aStep)
-}
-machineStepLen = []
-for(i=0;i<newmachineStep.length;i++){
-    step_index.push(i)
-    machineStepLen.push(newmachineStep[i].length)
-}
-var option1 = {
-    title: {
-        text: '人机对比',
-    },
-    tooltip: {
-        trigger: 'axis',
-        formatter(params) {
-            // console.log(params);
-            player = ''
-            for(j=params[0].dataIndex;j<playerStep.length;j++){
-                if (j==params[0].dataIndex) player = playerStep[j]
-                else player = player+','+playerStep[j]
-            }
-
-            console.log(player)
-            var res = '<div><p>human：' + player + '<\p><p>machine：' + newmachineStep[params[0].dataIndex] + '<\p><\div>';
-            return res;
-        },
-        textStyle: {
-            color: 'white',
-            decoration: 'none',
-            fontFamily: 'Verdana, sans-serif',
-            fontSize: 15,
-            fontStyle: 'italic',
-            fontWeight: 'bold'
-        }
-    },
-    legend: {
-    },
-    xAxis: {
-        name: '步数',
-        data: step_index
-    },
-    yAxis: {
-        name: '机器还原所需步数'
-    },
-    series: [{
-        type: 'line',
-        data: machineStepLen
-    }]
-};
-myChart1.setOption(option1);
