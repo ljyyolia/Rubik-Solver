@@ -31,10 +31,10 @@ def challenge(request):
     status = request.POST["step"].split(',')
     step = []
     for i in range(len(status)):
-        if i//54 == 0 and i!=0:
+        if i%54 == 0 and i!=0:
             steps.append(step)
             step = []
-        step.append(status[i])
+        step.append(int(status[i]))
     print(steps)
     context = {}
     context['answer'] = '1233'
