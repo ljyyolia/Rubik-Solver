@@ -27,6 +27,15 @@ def solve(request):
 
 def challenge(request):
     print(request.POST["step"])
+    steps = []
+    status = request.POST["step"].split(',')
+    step = []
+    for i in range(status.length):
+        if i//54 == 0 and i!=0:
+            steps.append(step)
+            step = []
+        step.append(status[i])
+    print(steps)
     context = {}
     context['answer'] = '1233'
     return HttpResponse(json.dumps(context), content_type='application/json')
