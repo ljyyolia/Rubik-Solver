@@ -586,7 +586,7 @@ for (var i = 0; i < 12; i++) {
         setTimeout(function(){
             playerStatus.push(getStatus());
             
-        },2000);  
+        },1000);
     }
     
 }
