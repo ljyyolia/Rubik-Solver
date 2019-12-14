@@ -55,7 +55,7 @@
 <!---->
 
 <body style="background: #eeeeee;" onmousemove="mousemove(event)">
-    <div class="box box-widget widget-user" style="width:70%;margin:0 auto">
+    <div class="box box-widget widget-user" style="width:70%;margin:0 auto;">
         <!-- Add the bg color to the header using any of the bg-* classes -->
         <div class="widget-user-header" style="background-color: white">
             <div style="margin:0 auto;text-align:center;font-size: 55px;color: black">魔方大师</div>
@@ -66,13 +66,13 @@
                 <div class="col-xs-2"></div>
                 <a href="#tab_3" data-toggle="tab" style="text-decoration:none;" id="exploremode">
                     <div class="alert alert-info alert-dismissible col-xs-2" style="text-align: center">
-                        <h4 style="margin:auto"><i class="icon fa fa-warning"></i>探索模式</h4>
+                        <h4 style="margin:auto"><i class="icon fa fa-search"></i>探索模式</h4>
                     </div>
                 </a>
                 <div class="col-xs-1"></div>
                 <a href="#tab_1" data-toggle="tab" style="text-decoration:none;" id="solvemode">
                     <div class="alert alert-success alert-dismissible col-xs-2" style="text-align: center">
-                        <h4 style="margin:auto"><i class="icon fa fa-check"></i> 求解模式</h4>
+                        <h4 style="margin:auto"><i class="icon fa fa-check"></i> 求解模式 </h4>
                     </div>
                 </a>
                 <div class="col-xs-1"></div>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="tab-content col-xs-6">
                     <div class="tab-pane" id="tab_1">
-                        <div class="blank" style="height:398px">
+                        <div class="blank" style="height:300px">
                             <div class="btn-group" id='color-picker'
                                 style="position:absolute;background-color:cornsilk;display:none">
                                 <ul class="fc-color-picker" id="color-chooser" style="margin:0 5px">
@@ -145,15 +145,15 @@
                                     <div class="box-body solution">
                                         <div id='solution'></div>
                                         <div class="playandpause" style="display:none">
-                                                <button type="button" class="btn bg-default" id='left'>
-                                                    <i class="fa  fa-chevron-left"></i>
-                                                </button>
-                                                <button type="button" class="btn bg-default" id="play">
-                                                    <i class="fa  fa-play" id="playicon"></i>
-                                                </button>
-                                                <button type="button" class="btn bg-default" id="right">
-                                                    <i class="fa  fa-chevron-right"></i>
-                                                </button>
+                                            <button type="button" class="btn bg-default" id='left'>
+                                                <i class="fa  fa-chevron-left"></i>
+                                            </button>
+                                            <button type="button" class="btn bg-default" id="play">
+                                                <i class="fa  fa-play" id="playicon"></i>
+                                            </button>
+                                            <button type="button" class="btn bg-default" id="right">
+                                                <i class="fa  fa-chevron-right"></i>
+                                            </button>
                                         </div>
                                     </div>
 
@@ -168,26 +168,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="alert alert-danger alert-dismissible" style="display:none;position:fixed;top:60%;left:27%;height:100px;width:180px;margin-top:-40px">
+                    <div class="alert alert-danger alert-dismissible"
+                        style="display:none;position:fixed;top:60%;left:27%;height:100px;width:180px;margin-top:-40px">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h4><i class="icon fa fa-ban"></i> 警告!</h4>
                         <div id='error'>魔方涂色错误</div>
                     </div>
-                    <div class="alert alert-success alert-dismissible" style="display:none;position:fixed;top:60%;left:27%;height:80px;width:150px;margin-top:-40px">
-                        <button type="button" class="close" id='close2' data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <div class="alert alert-success alert-dismissible"
+                        style="display:none;position:fixed;top:60%;left:27%;height:80px;width:150px;margin-top:-40px">
+                        <button type="button" class="close" id='close2' data-dismiss="alert"
+                            aria-hidden="true">&times;</button>
                         <h4><i class="icon fa fa-check"></i> 成功!</h4>
                         魔方求解完成
-                      </div>
+                    </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_2">
-                        <div class="blank" style="height:398px">
+                        <div class="blank" style="height:300px">
                             <div style="margin-top:100px">
-                                        <button type="button" class="btn btn-warning" id="startCha" style="margin-right: 5px;margin-bottom:30px">
-                                            <i class="fa fa-hourglass-1"></i> 开始挑战
-                                        </button>
-                                        <button type="button" class="btn btn-warning" id="txt" style="margin-right: 5px;margin-bottom:30px">
-                                            <i class="fa fa-hourglass-1"></i>
-                                        </button>
+                                <button type="button" class="btn btn-warning" id="startCha"
+                                    style="margin-right: 5px;margin-bottom:30px">
+                                    <i class="fa fa-play" id="playicon2"></i> 开始挑战
+                                </button>
+                                <button type="button" class="btn btn-default" id="endCha"
+                                    style="margin-right: 5px;margin-bottom:30px">
+                                    <i class="fa fa-stop"></i>
+                                </button>
+                                <button type="button" class="btn btn-default" id="txt"
+                                    style="margin-right: 5px;margin-bottom:30px">
+                                    <i class="fa fa-hourglass-1"></i>
+                                </button>
 
                                 <div id="btns" class="btns" style="width:300px;">
                                     <div style="margin-bottom: 10px">
@@ -217,19 +226,15 @@
                                             <input type="button" style="margin-top:10px" value="设置颜色"/>
                                             <input type="button" style="margin-top:10px" value="还原"/>-->
                                     <div style="margin-top:30px">
-                                        <button type="button" class="btn bg-olive" id="resetpos" style="margin-right: 5px;">
+                                        <button type="button" class="btn bg-olive" id="resetpos"
+                                            style="margin-right: 5px;">
                                             <i class="fa fa-hand-stop-o"></i> 重置位置
                                         </button>
-                                        <button type="button" class="btn bg-olive" id="conreset" style="margin-right: 5px;"
-                                            id="opposite">
+                                        <button type="button" class="btn bg-olive" id="conreset"
+                                            style="margin-right: 5px;" id="opposite">
                                             <i class="fa fa-hand-stop-o"></i> 反向
                                         </button>
-
-
                                     </div>
-
-
-
                                 </div>
 
 
@@ -237,7 +242,7 @@
                         </div>
                     </div>
                     <div class="tab-pane active" id="tab_3">
-                        <div class="blank" style="height:398px">
+                        <div class="blank" style="height:300px">
                             <div style="margin-top:100px">
                                 <div id="btns" class="btns" style="width:300px;">
                                     <div style="margin-bottom: 10px">
@@ -261,7 +266,8 @@
 
                                 <div class="cs" id="cs" style="width:400px;">
                                     <div style="margin-top:30px">
-                                        <button type="button" class="btn bg-olive" id="resetcolor" style="margin-right: 5px;">
+                                        <button type="button" class="btn bg-olive" id="resetcolor"
+                                            style="margin-right: 5px;">
                                             <i class="fa fa-refresh"></i> 重置颜色
                                         </button>
                                     </div>
@@ -274,10 +280,11 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- /.tab-pane -->
                 </div>
             </div>
-
+            <div id="echart" style="width: 800px;height:300px;margin:0 auto"></div>
             <!-- /.tab-content -->
         </div>
 
@@ -287,9 +294,12 @@
 
 
 
-
+    <link rel="stylesheet" href="{%static 'Cube.css'%}">
+    <script type="text/javascript" src="{%static 'Cube.js'%}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
-    isDiyColor = false
+        isDiyColor = false
         movex = 0
         movey = 0
         function mousemove(e) {
@@ -303,10 +313,9 @@
         var cube = new Cube('mf', { borderLength: 200 });
 
         var aInt = document.getElementsByClassName('operation');
-        console.log(aInt)
         for (var i = 0; i < aInt.length; i++) {
             aInt[i].onclick = function () {
-                console.log(this.innerHTML)
+                //console.log(this.innerHTML)
                 cube.turn3(this.innerHTML.toLowerCase());
             }
         }
@@ -320,25 +329,46 @@
             $('#solution')[0].style['display'] = 'none'
         };
         document.getElementById('startCha').onclick = function () {
-            startTime();
+            playclass = document.getElementById('playicon2').getAttribute('class')
+            if(playclass=='fa fa-play'){
+                document.getElementById('playicon2').setAttribute("class",'fa fa-pause')
+                this.innerHTML = '<i class="fa fa-pause" id="playicon2"></i> 暂停挑战'
+                //$('#startCha').html('暂停挑战')
+                startTime();
+            }else{
+                document.getElementById('playicon2').setAttribute("class",'fa fa-play')
+                this.innerHTML = '<i class="fa fa-play" id="playicon2"></i> 继续挑战'
+                clearInterval(timecount)
+            }
+
         };
         document.getElementById('resetpos').onclick = function () {
-            cube.initL([-22.5, -45, 22.5]);};
+            cube.initL([-22.5, -45, 22.5]);
+        };
         document.getElementById('conreset').onclick = function () {
-            cube.initL([-38,-235,30]);}
-        document.getElementById('resetcolor').onclick = function () {
-            cube.initColor();}
-        var time = 0
-        function startTime(){
-            setInterval(function(){
-                time++
-                document.getElementById('txt').innerHTML=time+'s'
-            },1000)
+            cube.initL([-38, -235, 30]);
         }
+        document.getElementById('resetcolor').onclick = function () {
+            cube.initColor();
+        }
+        var time = 0
+        function startTime() {
+            timecount = setInterval(function () {
+                time++
+                document.getElementById('txt').innerHTML = time + 's'
+            }, 1000)
+        }
+
+
+
+    </script>
+    <script>
+
 
     </script>
 
 </body>
+<script src="{%static 'echarts.min.js'%}"></script>
 <script src="{%static 'adminLTE/bower_components/jquery/dist/jquery.min.js'%}"></script>
 <script src="{%static 'adminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js'%}"></script>
 <script src="{%static 'adminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'%}"></script>
