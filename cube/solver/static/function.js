@@ -552,16 +552,15 @@ function emptycolor(){
 //求解模式初始为随机打乱后的魔方
 $("#solvemode").bind("click",function(){
     console.log('切换到了求解模式')
+    $('#echart')[0].style['display'] = 'none'
 })
-/*
+
 $("#challengemode").bind("click",function(){
-
-
-    setTimeout(function(){playerStep.push(getStatus())},3000);  
+    $('#echart')[0].style['display'] = 'block'
 })
 $("#exploremode").bind("click",function(){
-    cube.initColor();
-})*/
+    $('#echart')[0].style['display'] = 'none'
+})
 $("#empty").bind("click",function(){
     emptycolor()
     $('.playandpause')[0].style['display'] = 'none'
