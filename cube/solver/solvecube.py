@@ -18,7 +18,7 @@ def solve(request):
     ret, data = solve_state(testState,wait_time = 15)
     print(ret)
     print(data)
-    if data['state']!=None:
+    if data!=None:
       data['state'] = data['state'].tolist()
 
     context['ret'] = ret
