@@ -596,6 +596,7 @@ document.getElementById('endCha').onclick = function () {
     //显示对比图表
     var formData = new FormData();
     formData.append('step', playerStatus)
+    console.log(playerStatus)
     //formData.append('video', document.getElementById("videoFile").files[0])
     $.ajax({
             url:"challenge",
