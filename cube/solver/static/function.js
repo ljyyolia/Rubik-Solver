@@ -555,7 +555,8 @@ $("#solvemode").bind("click",function(){
 })
 /*
 $("#challengemode").bind("click",function(){
-    cube.random()
+
+
     setTimeout(function(){playerStep.push(getStatus())},3000);  
 })
 $("#exploremode").bind("click",function(){
@@ -592,6 +593,10 @@ for (var i = 0; i < 12; i++) {
 }
 document.getElementById('endCha').onclick = function () {
     clearInterval(timecount)
+    time = 0
+    IsChallenge = false
+    document.getElementById('playicon2').setAttribute("class",'fa fa-play')
+    document.getElementById('startCha').innerHTML = '<i class="fa fa-play" id="playicon2"></i> 开始挑战'
     //显示对比图表
     var formData = new FormData();
     formData.append('step', playerStatus)

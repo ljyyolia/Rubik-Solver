@@ -300,6 +300,7 @@
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
         isDiyColor = false
+        IsChallenge= false
         movex = 0
         movey = 0
         function mousemove(e) {
@@ -329,6 +330,11 @@
             $('#solution')[0].style['display'] = 'none'
         };
         document.getElementById('startCha').onclick = function () {
+            if(IsChallenge==false)  {
+                cube.random()
+                IsChallenge=true
+            }
+
             playclass = document.getElementById('playicon2').getAttribute('class')
             if(playclass=='fa fa-play'){
                 document.getElementById('playicon2').setAttribute("class",'fa fa-pause')
