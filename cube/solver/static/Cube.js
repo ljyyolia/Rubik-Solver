@@ -224,7 +224,7 @@ Cube.prototype.setColor = function (colorarr) {
                 console.log(this.getAttribute("pos"))
                 cubePos = this.getAttribute("pos")
                 if(isDiyColor==true){
-                    $('#color-picker').css({'left': movex-440,
+                    $('#color-picker').css({'left': movex-1000,
                     'top': movey-200,
                     'display':'block'});
                 }
