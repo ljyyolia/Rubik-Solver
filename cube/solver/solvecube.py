@@ -32,10 +32,11 @@ def challenge(request):
     step = []
     print(len(status))
     for i in range(len(status)):
-        if (i%54 == 0 and i!=0) or i==len(status)-1:
+        if (i%54 == 0 and i!=0):
             steps.append(np.array(step))
             step = []
         step.append(int(status[i]))
+    steps.append(step)
     print(steps)
     print(len(steps))
     alldata = []
