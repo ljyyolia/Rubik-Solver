@@ -32,11 +32,16 @@ def challenge(request):
     step = []
     for i in range(len(status)):
         if i%54 == 0 and i!=0:
-            steps.append(step)
+            steps.append(np.array(step))
             step = []
         step.append(int(status[i]))
     print(steps)
     print(len(steps))
+    alldata = []
+    for step in steps:
+        ret, data = solve_state(step, wait_time=15)
+        alldata.append(data['solution'])
     context = {}
+    context['machineStep'] = alldata
     context['answer'] = '1233'
     return HttpResponse(json.dumps(context), content_type='application/json')
