@@ -673,5 +673,23 @@ document.getElementById('endCha').onclick = function () {
             }
     })
     $('#echart')[0].style['display'] = 'block'
+    playerStatus = []
+    playerStep = []
 }
-result={'machineStep':1}
+document.getElementById('startCha').onclick = function () {
+    if(IsChallenge==false)  {
+        cube.random()
+        IsChallenge=true
+    }
+    playclass = document.getElementById('playicon2').getAttribute('class')
+    if(playclass=='fa fa-play'){
+        document.getElementById('playicon2').setAttribute("class",'fa fa-pause')
+        this.innerHTML = '<i class="fa fa-pause" id="playicon2"></i> 暂停挑战'
+        //$('#startCha').html('暂停挑战')
+        startTime();
+    }else{
+        document.getElementById('playicon2').setAttribute("class",'fa fa-play')
+        this.innerHTML = '<i class="fa fa-play" id="playicon2"></i> 继续挑战'
+        clearInterval(timecount)
+    }
+};
