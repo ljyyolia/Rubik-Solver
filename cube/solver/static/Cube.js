@@ -218,17 +218,19 @@ Cube.prototype.setColor = function (colorarr) {
             dom[j].faces[i].style.background = this.colors[i][j];
             dom[j].faces[i].setAttribute('pos',i+','+j)
             dom[j].faces[i].setAttribute('class','fk')
-            dom[j].faces[i].onclick = function(){
+            if(i!=j)
+            {
+                dom[j].faces[i].onclick = function(){
                 console.log(this.getAttribute("pos"))
                 cubePos = this.getAttribute("pos")
                 if(isDiyColor==true){
                     $('#color-picker').css({'left': movex-760,
                     'top': movey-200,
-                    'display':'block'});   
+                    'display':'block'});
                 }
-
-                
             }
+            }
+
         }
     }
 };
