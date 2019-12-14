@@ -4,5 +4,7 @@ from . import views,solvecube
 
 urlpatterns = [
     path('', views.index, name='index'),
-    url(r'^solve$', solvecube.solve)
+    url(r'^solve$', solvecube.solve),
+    url(r'^challenge$', solvecube.challenge),
+
 ]

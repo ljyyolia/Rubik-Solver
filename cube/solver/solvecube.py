@@ -24,3 +24,9 @@ def solve(request):
     context['ret'] = ret
     context['data'] = data
     return HttpResponse(json.dumps(context),content_type='application/json')
+
+def challenge(request):
+    print(request.POST["step"])
+    context = {}
+    context['answer'] = '1233'
+    return HttpResponse(json.dumps(context), content_type='application/json')
