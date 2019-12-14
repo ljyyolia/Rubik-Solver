@@ -187,7 +187,6 @@ Cube.prototype.delColor = function () {
 }
 //设定魔方颜色设定 格式[[color,color,上面的9个点],[下],[]..]
 Cube.prototype.setColor = function (colorarr) {
-    console.log(colorarr)
     var _this = this;
     this.delColor();
     this.colors = colorarr || (function () {
@@ -196,7 +195,6 @@ Cube.prototype.setColor = function (colorarr) {
             var subarr = _this.initColors[i].slice(0);
             arr.push(subarr);
         }
-        console.log(arr)
         return arr;
     })();
     //容错this.colors,如果每一个面只给一个颜色或少给颜色，按前一个颜色算;
@@ -212,7 +210,6 @@ Cube.prototype.setColor = function (colorarr) {
     }
     var b = this.order - 1;
     var filter = [{y: 0}, {y: b}, {x: 0}, {x: b}, {z: b}, {z: 0}];
-    console.log(this.colors)
     //添加颜色
     
     for (var i = 0; i < 6; i++) {
