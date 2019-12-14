@@ -621,7 +621,6 @@ document.getElementById('endCha').onclick = function () {
                     step_index.push(i)
                     machineStepLen.push(newmachineStep[i].length)
                 }
-                step_index.push(newmachineStep.length)
                 var option1 = {
                     title: {
                         text: '人机对比',

@@ -218,7 +218,7 @@ Cube.prototype.setColor = function (colorarr) {
             dom[j].faces[i].style.background = this.colors[i][j];
             dom[j].faces[i].setAttribute('pos',i+','+j)
             dom[j].faces[i].setAttribute('class','fk')
-            if(i!=j)
+            if(j==4)
             {
                 dom[j].faces[i].onclick = function(){
                 console.log(this.getAttribute("pos"))
