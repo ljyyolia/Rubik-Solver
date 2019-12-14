@@ -590,7 +590,6 @@ for (var i = 0; i < 12; i++) {
     }
     
 }
-playerStep=['R','R','L','R','D','F','R','R','L']
 document.getElementById('endCha').onclick = function () {
     clearInterval(timecount)
     //显示对比图表
@@ -609,16 +608,6 @@ document.getElementById('endCha').onclick = function () {
                 machineStep = result['machineStep']
                 var myChart1 = echarts.init(document.getElementById('echart'));
                 step_index = [];
-                machineStep = [ [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1], ['F', -1]],
-                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1]],
-                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1]],
-                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1]],
-                                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1]],
-                                [['B', 1], ['F', -1], ['R', 1], ['L', -1]],
-                                [['B', 1], ['F', -1], ['R', 1]],
-                                [['B', 1], ['F', -1]],
-                                [['B', 1]],
-                                [],]
                 newmachineStep = []
                 for(i=0;i<machineStep.length;i++){
                     aStep = []
