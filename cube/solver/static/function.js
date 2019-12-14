@@ -575,18 +575,12 @@ $('#close2').bind("click",function(){
     $('.alert-dismissible')[4].style['display'] = 'none'
 })
 var aInt = document.getElementsByClassName('operation');
-function a(i){
-    playerStatus.push(getStatus());
-    console.log(i)
-    playerStep.push(turnSign[i])
-}
 for (var i = 0; i < 12; i++) {
     aInt[i].onclick = function () {
         playerStep.push(this.innerHTML)
         cube.turn3(this.innerHTML.toLowerCase());
         setTimeout(function(){
-            playerStatus.push(getStatus());
-            
+            playerStatus.push(getStatus())
         },1000);
     }
     
@@ -674,6 +668,9 @@ document.getElementById('endCha').onclick = function () {
     $('#echart')[0].style['display'] = 'block'
 }
 document.getElementById('startCha').onclick = function () {
+    setTimeout(function(){
+            playerStatus.push(getStatus())
+        },4000);
     if(IsChallenge==false)  {
         cube.random()
         IsChallenge=true
