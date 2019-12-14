@@ -18,7 +18,8 @@ def solve(request):
     ret, data = solve_state(testState)
     print(ret)
     print(data)
-    data['state'] = data['state'].tolist()
+    if data['state']!=None:
+      data['state'] = data['state'].tolist()
 
     context['ret'] = ret
     context['data'] = data
