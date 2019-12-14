@@ -30,7 +30,7 @@ def challenge(request):
     steps = []
     status = request.POST["step"].split(',')
     step = []
-    for i in range(status.length):
+    for i in range(len(status)):
         if i//54 == 0 and i!=0:
             steps.append(step)
             step = []
