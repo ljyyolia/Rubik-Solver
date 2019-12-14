@@ -36,6 +36,7 @@ def challenge(request):
             step = []
         step.append(int(status[i]))
     print(steps)
+    print(len(steps))
     context = {}
     context['answer'] = '1233'
     return HttpResponse(json.dumps(context), content_type='application/json')
