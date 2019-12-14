@@ -627,6 +627,7 @@ document.getElementById('endCha').onclick = function () {
                     step_index.push(i)
                     machineStepLen.push(newmachineStep[i].length)
                 }
+                step_index.push(newmachineStep.length)
                 var option1 = {
                     title: {
                         text: '人机对比',
@@ -640,8 +641,6 @@ document.getElementById('endCha').onclick = function () {
                                 if (j==params[0].dataIndex) player = playerStep[j]
                                 else player = player+','+playerStep[j]
                             }
-
-                            console.log(player)
                             var res = '<div><p>human：' + player + '<\p><p>machine：' + newmachineStep[params[0].dataIndex] + '<\p><\div>';
                             return res;
                         },
