@@ -15,7 +15,7 @@ def solve(request):
     print(status)
     testState = np.array(status)
     print(testState)
-    ret, data = solve_state(testState)
+    ret, data = solve_state(testState,wait_time = 15)
     print(ret)
     print(data)
     if data['state']!=None:
