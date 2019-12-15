@@ -553,23 +553,22 @@ function emptycolor(){
 $("#solvemode").bind("click",function(){
     console.log('切换到了求解模式')
     $('#echart')[0].style['visibility'] = 'hidden'
-
-    $('#solvebtn')[0].attr('class','btn bg-green-active color-palette col-xs-2')
-    $('#explorebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
-    $('#challengebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
+    document.getElementById('solvebtn').className = 'btn bg-green-active color-palette col-xs-2'
+    document.getElementById('explorebtn').className = 'btn bg-green color-palette col-xs-2'
+    document.getElementById('challengebtn').className = 'btn bg-green color-palette col-xs-2'
 })
 
 $("#challengemode").bind("click",function(){
     $('#echart')[0].style['visibility'] = 'visible'
-    $('#solvebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
-    $('#explorebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
-    $('#challengebtn')[0].attr('class','btn bg-green-active color-palette col-xs-2')
+    document.getElementById('solvebtn').className = 'btn bg-green color-palette col-xs-2'
+    document.getElementById('explorebtn').className = 'btn bg-green color-palette col-xs-2'
+    document.getElementById('challengebtn').className = 'btn bg-green-active color-palette col-xs-2'
 })
 $("#exploremode").bind("click",function(){
     $('#echart')[0].style['visibility'] = 'hidden'
-    $('#solvebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
-    $('#explorebtn')[0].attr('class','btn bg-green-active color-palette col-xs-2')
-    $('#challengebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
+    document.getElementById('solvebtn').className = 'btn bg-green color-palette col-xs-2'
+    document.getElementById('explorebtn').className = 'btn bg-green-active color-palette col-xs-2'
+    document.getElementById('challengebtn').className = 'btn bg-green color-palette col-xs-2'
 })
 $("#empty").bind("click",function(){
     emptycolor()
@@ -676,7 +675,10 @@ document.getElementById('endCha').onclick = function () {
     $('#echart')[0].style['display'] = 'block'
 }
 document.getElementById('startCha').onclick = function () {
-    operations = $('.opreation').attr('class','btn btn-default operation')
+    operations = document.getElementsByClassName('disabled')
+    for(i=0;i<operations.length;i++){
+        operations[i].className = 'btn btn-default operation'
+    }
     setTimeout(function(){
             playerStatus.push(getStatus())
         },4000);
