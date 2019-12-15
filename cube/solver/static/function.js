@@ -675,7 +675,7 @@ document.getElementById('endCha').onclick = function () {
     $('#echart')[0].style['display'] = 'block'
 }
 document.getElementById('startCha').onclick = function () {
-    operations = document.getElementsByClassName('disabled')
+    operations = document.getElementsByClassName('btn btn-default disabled operation')
     for(i=0;i<operations.length;i++){
         operations[i].className = 'btn btn-default operation'
     }
