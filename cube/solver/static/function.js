@@ -676,7 +676,7 @@ document.getElementById('endCha').onclick = function () {
 }
 document.getElementById('startCha').onclick = function () {
     operations = document.getElementsByClassName('btn btn-default disabled operation')
-    for(i=0;i<operations.length;i++){
+    for(i=0;i<12;i++){
         console.log(i)
         operations[i].className = 'btn btn-default operation'
     }
