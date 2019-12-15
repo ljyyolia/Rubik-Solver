@@ -1,0 +1,366 @@
+{% load static %}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title></title>
+    <style>
+        input {
+            font-size: 16px;
+            height: 26px;
+        }
+
+        .btns input {
+            width: 42px;
+            margin: 5px 0;
+            padding: 0px;
+        }
+
+        #color-picker {
+            border-radius: 10px;
+            border-style: solid;
+            border-width: 1px;
+            background-color: white;
+        }
+
+        .btn-default {
+            width: 40px
+        }
+
+        .ope-result {
+            margin-top: 10px
+        }
+    </style>
+</head>
+
+<!-- adminLTE -->
+<link rel="stylesheet" href="{%static 'adminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css'%}">
+<link rel="stylesheet" href="{%static 'adminLTE/bower_components/font-awesome/css/font-awesome.min.css'%}">
+<link rel="stylesheet" href="{%static 'adminLTE/bower_components/Ionicons/css/ionicons.min.css'%}">
+<link rel="stylesheet" href="{%static 'adminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css'%}">
+<link rel="stylesheet" href="{%static 'adminLTE/dist/css/AdminLTE.css'%}">
+<link rel="stylesheet" href="{%static 'adminLTE/dist/css/skins/_all-skins.min.css'%}">
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<link rel="stylesheet" href="{%static 'Cube.css'%}">
+<script type="text/javascript" src="{%static 'Cube.js'%}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js'%}"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<!---->
+
+<body style="background: #eeeeee;" onmousemove="mousemove(event)">
+    <div class="box box-widget widget-user" style="width:70%;margin:0 auto;">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header" style="background-color: white">
+            <div style="margin:0 auto;text-align:center;font-size: 55px;color: black">魔方大师</div>
+        </div>
+        <div class="nav-tabs-custom">
+
+            <div class="row" style="margin-top: 20px">
+                <div class="col-xs-2"></div>
+                <a href="#tab_3" data-toggle="tab" style="text-decoration:none;" id="exploremode">
+                    <div class="btn bg-green-active color-palette col-xs-2" id="explorebtn" style="text-align: center">
+                        <h4 style="margin:auto"><i class="icon fa fa-search"></i>探索模式</h4>
+                    </div>
+                </a>
+                <div class="col-xs-1"></div>
+                <a href="#tab_1" data-toggle="tab" style="text-decoration:none;" id="solvemode">
+                    <div class="btn bg-green color-palette col-xs-2" id="solvebtn" style="text-align: center">
+                        <h4 style="margin:auto"><i class="icon fa fa-check"></i> 求解模式 </h4>
+                    </div>
+                </a>
+                <div class="col-xs-1"></div>
+                <a href="#tab_2" data-toggle="tab" style="text-decoration:none;" id="challengemode">
+                    <div class="btn bg-green color-palette col-xs-2" id="challengebtn" style="text-align: center">
+                        <h4 style="margin:auto"><i class="icon fa fa-warning"></i>挑战模式</h4>
+                    </div>
+                </a>
+                <div class="col-xs-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div id="mf" style="margin:120px auto;"></div>
+                </div>
+                <div class="tab-content col-xs-6">
+                    <div class="tab-pane" id="tab_1">
+                        <div class="blank" style="height:300px">
+                            <div class="btn-group" id='color-picker'
+                                style="position:absolute;background-color:cornsilk;display:none">
+                                <ul class="fc-color-picker" id="color-chooser" style="margin:0 5px">
+                                    <li><a href="#"><i class="fa fa-square color" style="color:yellow"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-square color" style="color:white"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-square color" style="color:blue"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-square color" style="color:green;"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-square color" style="color:red"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-square color" style="color:orange"></i></a></li>
+                                </ul>
+                            </div>
+                            <div style="margin-top:100px">
+
+                                <div class="cs" id="cs">
+                                    <!--
+                                                        <input type="text" style="margin-top:10px;" value="ddr'd'ffbdrrddr'ffd'ffu'bblluudrru">
+                                                        <input type="button" style="margin-top:10px" value="批量操作"/>
+                                                        <input type="text" style="margin-top:10px;" value="DRLUUBFBRBLURRLRUBLRDDFDLFUFUFFDBRDUBRUFLLFDDBFLUBLRBD">
+                                                        <input type="button" style="margin-top:10px" value="设置颜色"/>
+                                                        <input type="button" style="margin-top:10px" value="还原"/>-->
+                                    <div style="width:300px;">
+                                        <button type="button" class="btn bg-olive" style="margin-right: 5px;">
+                                            <i class="fa fa-hand-stop-o"></i> 重置位置
+                                        </button>
+                                        <button type="button" class="btn bg-olive" id="opposite">
+                                            <i class="fa fa-hand-stop-o"></i> 反向
+                                        </button>
+                                        <div style="margin-top:15px">
+                                            <button type="button" class="btn bg-olive" style="margin-right: 5px;">
+                                                <i class="fa fa-download"></i> 随机打乱
+                                            </button>
+                                            <button type="button" class="btn btn-danger" style="margin-right: 5px;"
+                                                id="empty">
+                                                <i class="fa fa-circle-o"></i> 清空颜色
+                                            </button>
+                                            <button type="button" class="btn bg-olive" style="margin-right: 5px;"
+                                                id="solve">
+                                                <i class="fa fa-check"></i> 求解
+                                            </button>
+
+                                            <button type="button" class="btn bg-olive"
+                                                style="margin-right: 5px; display:none" id="show">
+                                                <i class="fa fa-download"></i> 显示
+                                            </button>
+                                            <button type="button" class="btn bg-olive"
+                                                style="margin-right: 5px; display:none" id="convert">
+                                                <i class="fa fa-download"></i> 转换
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="box-body solution col-xs-8" style="">
+                                        <div id='solution' ></div>
+                                        <div class="playandpause" style="display:none;margin-top:10px;">
+                                            <button type="button" class="btn btn-default" id='left'>
+                                                <i class="fa  fa-chevron-left"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default" id="play">
+                                                <i class="fa  fa-play" id="playicon"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default" id="right">
+                                                <i class="fa  fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="cubeStatus"></div>
+
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger alert-dismissible"
+                        style="display:none;position:fixed;top:50%;left:27%;height:100px;width:180px;margin-top:-40px">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-ban"></i> 警告!</h4>
+                        <div id='error'>魔方涂色错误</div>
+                    </div>
+                    <div class="alert alert-success alert-dismissible"
+                        style="display:none;position:fixed;top:50%;left:27%;height:80px;width:150px;margin-top:-40px">
+                        <button type="button" class="close" id='close2' data-dismiss="alert"
+                            aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> 成功!</h4>
+                        魔方求解完成
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_2">
+                        <div class="blank" style="height:300px">
+                            <div style="margin-top:100px">
+                                <button type="button" class="btn btn-warning" id="startCha"
+                                    style="margin-right: 5px;margin-bottom:30px">
+                                    <i class="fa fa-play" id="playicon2"></i> 开始挑战
+                                </button>
+                                <button type="button" class="btn btn-default" id="endCha"
+                                    style="margin-right: 5px;margin-bottom:30px">
+                                    <i class="fa fa-stop"></i>
+                                </button>
+                                <button type="button" class="btn btn-default" id="txt"
+                                    style="margin-right: 5px;margin-bottom:30px">
+                                    <i class="fa fa-hourglass-1"></i>
+                                </button>
+
+                                <div id="btns" class="btns" style="width:300px;">
+                                    <div style="margin-bottom: 10px">
+                                        <button type="button" class="btn btn-default operation">U</button>
+                                        <button type="button" class="btn btn-default operation">D</button>
+                                        <button type="button" class="btn btn-default operation">L</button>
+                                        <button type="button" class="btn btn-default operation">R</button>
+                                        <button type="button" class="btn btn-default operation">F</button>
+                                        <button type="button" class="btn btn-default operation">B</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-default operation">U'</button>
+                                        <button type="button" class="btn btn-default operation">D'</button>
+                                        <button type="button" class="btn btn-default operation">L'</button>
+                                        <button type="button" class="btn btn-default operation">R'</button>
+                                        <button type="button" class="btn btn-default operation">F'</button>
+                                        <button type="button" class="btn btn-default operation">B'</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="cs" id="cs" style="width:400px;">
+                                    <!--
+                                            <input type="text" style="margin-top:10px;" value="ddr'd'ffbdrrddr'ffd'ffu'bblluudrru">
+                                            <input type="button" style="margin-top:10px" value="批量操作"/>
+                                            <input type="text" style="margin-top:10px;" value="DRLUUBFBRBLURRLRUBLRDDFDLFUFUFFDBRDUBRUFLLFDDBFLUBLRBD">
+                                            <input type="button" style="margin-top:10px" value="设置颜色"/>
+                                            <input type="button" style="margin-top:10px" value="还原"/>-->
+                                    <div style="margin-top:30px">
+                                        <button type="button" class="btn bg-olive" id="resetpos"
+                                            style="margin-right: 5px;">
+                                            <i class="fa fa-hand-stop-o"></i> 重置位置
+                                        </button>
+                                        <button type="button" class="btn bg-olive" id="conreset"
+                                            style="margin-right: 5px;" id="opposite">
+                                            <i class="fa fa-hand-stop-o"></i> 反向
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane active" id="tab_3">
+                        <div class="blank" style="height:300px">
+                            <div style="margin-top:100px">
+                                <div id="btns" class="btns" style="width:300px;">
+                                    <div style="margin-bottom: 10px">
+                                        <button type="button" class="btn btn-default operation">U</button>
+                                        <button type="button" class="btn btn-default operation">D</button>
+                                        <button type="button" class="btn btn-default operation">L</button>
+                                        <button type="button" class="btn btn-default operation">R</button>
+                                        <button type="button" class="btn btn-default operation">F</button>
+                                        <button type="button" class="btn btn-default operation">B</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-default operation">U'</button>
+                                        <button type="button" class="btn btn-default operation">D'</button>
+                                        <button type="button" class="btn btn-default operation">L'</button>
+                                        <button type="button" class="btn btn-default operation">R'</button>
+                                        <button type="button" class="btn btn-default operation">F'</button>
+                                        <button type="button" class="btn btn-default operation">B'</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="cs" id="cs" style="width:400px;">
+                                    <div style="margin-top:30px">
+                                        <button type="button" class="btn bg-olive" id="resetcolor"
+                                            style="margin-right: 5px;">
+                                            <i class="fa fa-refresh"></i> 重置颜色
+                                        </button>
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /.tab-pane -->
+                </div>
+            </div>
+            <div id="echart" style="width: 800px;height:300px;margin:0 auto"></div>
+            <!-- /.tab-content -->
+        </div>
+
+    </div>
+
+
+
+
+
+    <link rel="stylesheet" href="{%static 'Cube.css'%}">
+    <script type="text/javascript" src="{%static 'Cube.js'%}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        isDiyColor = false
+        IsChallenge= false
+        movex = 0
+        movey = 0
+        function mousemove(e) {
+            e = e || window.event;
+            if (e.pageX || e.pageY) {
+                movex = e.pageX;
+                movey = e.pageY
+            }
+
+        }
+        var cube = new Cube('mf', { borderLength: 200 });
+
+        var aInt = document.getElementsByClassName('operation');
+        for (var i = 0; i < aInt.length; i++) {
+            aInt[i].onclick = function () {
+                //console.log(this.innerHTML)
+                cube.turn3(this.innerHTML.toLowerCase());
+            }
+        }
+        var aInt2 = document.getElementById('cs').getElementsByTagName('button');
+        aInt2[0].onclick = function () {
+            cube.initL([-22.5, -45, 22.5]);
+        };
+        aInt2[2].onclick = function () {
+            cube.random();
+            $('.playandpause')[0].style['display'] = 'none'
+            $('#solution')[0].style['display'] = 'none'
+        };
+        document.getElementById('resetpos').onclick = function () {
+            cube.initL([-22.5, -45, 22.5]);
+        };
+        document.getElementById('conreset').onclick = function () {
+            cube.initL([-38, -235, 30]);
+        }
+        document.getElementById('resetcolor').onclick = function () {
+            cube.initColor();
+        }
+        var time = 0
+        function startTime() {
+            timecount = setInterval(function () {
+                time++
+                document.getElementById('txt').innerHTML = time + 's'
+            }, 1000)
+        }
+
+
+
+    </script>
+    <script>
+
+
+    </script>
+
+</body>
+<script src="{%static 'echarts.min.js'%}"></script>
+<script src="{%static 'adminLTE/bower_components/jquery/dist/jquery.min.js'%}"></script>
+<script src="{%static 'adminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js'%}"></script>
+<script src="{%static 'adminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'%}"></script>
+<script src="{%static 'adminLTE/dist/js/adminlte.min.js'%}"></script>
+<script src="{%static 'adminLTE/bower_components/fastclick/lib/fastclick.js'%}"></script>
+<script type="text/javascript" src="{%static 'adminLTE/../../static/function.js' %}"></script>
+
+</html>

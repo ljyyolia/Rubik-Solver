@@ -1,5 +1,8 @@
 
 cubeStatus = [] //存放顺序为上下左右前后
+//记得记录初始状态
+playerStep = []
+playerStatus = []
 $("#show").bind("click",function(){
     cubeStatus = []
     for(i=0;i<6;i++){
@@ -24,6 +27,11 @@ $("#solve").bind("click",function(){
             pos = "[pos='"+i+','+j+"']";
             console.log(pos)
             color = $(pos)[0].style['background']
+            /*if(colorType.indexOf(color)==-1){
+                $('.alert-dismissible')[3].style['display'] = 'block'
+                $('#error').text('请先完成涂色再进行求解')
+                return 
+            }*/
             if(color == 'rgb(255, 255, 255)') surface.push(1)
             else surface.push(colorType.indexOf(color));
         }
@@ -143,14 +151,10 @@ $("#solve").bind("click",function(){
         aedge=[cubeStatus[Num[0][0]][Num[1][0]],cubeStatus[Num[0][1]][Num[1][1]]]
         aedge.sort(function(a, b){return a - b}); 
         aedge = aedge+''
-        console.log(Num[0][0],Num[1][0])
-        console.log(Num[0][1],Num[1][1])
-        console.log(aedge)
-        console.log(Num[2][0])
-        console.log(cubeStatus[Num[0][0]][Num[1][0]])
         newCubeStatus[Num[2][0]] = edgeCube[aedge][cubeStatus[Num[0][0]][Num[1][0]]]
         newCubeStatus[Num[2][1]] = edgeCube[aedge][cubeStatus[Num[0][1]][Num[1][1]]]
     }
+
     //$(".cubeStatus").text(newCubeStatus)
     for(i=0;i<54;i++){
         if(newCubeStatus.indexOf(i)==-1) {
@@ -208,6 +212,7 @@ $("#solve").bind("click",function(){
         $('.playandpause')[0].style['display'] = 'block'
     }else{
         $('.alert-dismissible')[2].style['display'] = 'block'
+
         $('#error').text('魔方涂色错误，请检查')
     }
  
@@ -217,7 +222,8 @@ cornerCube = [['0,0','2,0','5,0'],['0,6','2,6','4,0'],['0,8','3,6','4,2'],['1,6'
 ['0,2','3,0','5,2'],['1,0','2,2','5,6'],['1,2','3,2','5,8']]
 cornerColor = [['yellow','green','red'],['yellow','red','blue'],['yellow','blue','orange'],['yellow','green','orange'],
 ['white','orange','green'],['white','red','green'],['white','red','blue'],['white','orange','blue']]
-edgeColor = [['yellow','white'],['green','blue'],['red','orange']]
+edgeColor = [['yellow','white'],['green','blue'],['red','orange'],['yellow','yellow'],['white','white'],['green','green'],['blue','blue'],['red','red'],['orange','orange']]
+
 for(i=0;i<edgeColor.length;i++){
     edgeColor[i] = edgeColor[i].sort().toString()
 }
@@ -339,16 +345,9 @@ function getStatus(){
         aCorner=[cubeStatus[Num[0][0]][Num[1][0]],cubeStatus[Num[0][1]][Num[1][1]],cubeStatus[Num[0][2]][Num[1][2]]]
         aCorner.sort(function(a, b){return a - b}); 
         aCorner = aCorner+''
-        //console.log(aCorner)
-        //console.log(Num[2][0])
-        //console.log(cubeStatus[Num[0][0]][Num[1][0]])
-        console.log(aCorner)
-        //if(cubeStatus[Num[0][0]][Num[1][0]]!=-1)
-            newCubeStatus[Num[2][0]] = cornerCube[aCorner][cubeStatus[Num[0][0]][Num[1][0]]]
-        //if(cubeStatus[Num[0][1]][Num[1][1]]!=-1)
-            newCubeStatus[Num[2][1]] = cornerCube[aCorner][cubeStatus[Num[0][1]][Num[1][1]]]
-        //if(cubeStatus[Num[0][2]][Num[1][2]]!=-1)   
-            newCubeStatus[Num[2][2]] = cornerCube[aCorner][cubeStatus[Num[0][2]][Num[1][2]]]
+        newCubeStatus[Num[2][0]] = cornerCube[aCorner][cubeStatus[Num[0][0]][Num[1][0]]]
+        newCubeStatus[Num[2][1]] = cornerCube[aCorner][cubeStatus[Num[0][1]][Num[1][1]]]  
+        newCubeStatus[Num[2][2]] = cornerCube[aCorner][cubeStatus[Num[0][2]][Num[1][2]]]
     }
     for(i=0;i<edgeCubeNum.length;i++){  //棱块进入序列
         Num = edgeCubeNum[i]
@@ -387,7 +386,7 @@ function CheckColor(nowcolor){
     console.log(colordict)
     for(var key in colordict){
         if(colordict[key]>8) {
-            $('.alert-dismissible')[2].style['display'] = 'block'
+            $('.alert-dismissible')[3].style['display'] = 'block'
             $('#error').text('魔方各颜色总数错误，请检查')
             return false
         }
@@ -425,11 +424,12 @@ function CheckColor(nowcolor){
         }
         if(nowEdgeColor.indexOf(-1)==-1){
             edgeflag = 1
-            for(m=0;m<3;m++){
+
+            for(m=0;m<9;m++){
                 if(nowEdgeColor.sort().toString() === edgeColor[m]==true) edgeflag = 0
             }
             if(edgeflag==0){
-                $('.alert-dismissible')[2].style['display'] = 'block'
+                $('.alert-dismissible')[3].style['display'] = 'block'
                 $('#error').text('魔方棱块颜色错误，请检查')
                 return false
             }
@@ -438,7 +438,7 @@ function CheckColor(nowcolor){
     }
     console.log(cornerFlags)
     if(cornerFlags.indexOf(0)>-1){
-        $('.alert-dismissible')[2].style['display'] = 'block'
+        $('.alert-dismissible')[3].style['display'] = 'block'
         $('#error').text('魔方角块颜色错误，请检查')
         return false
     }
@@ -459,6 +459,9 @@ $(".color").bind("click",function(){
     //console.log(colorindex)
     thisindex = cubePos.split(',')
     nowcolor[parseInt(thisindex[0])][parseInt(thisindex[1])] = this.style['color']
+    i = parseInt(thisindex[0])
+    j = parseInt(thisindex[1])
+    cube.colors[i][j] = this.style['color']
     if(CheckColor(nowcolor))  $(pos)[0].style['background'] = this.style['color']
     else nowcolor[parseInt(thisindex[0])][parseInt(thisindex[1])] = -1
     $('#color-picker').css({'left': movex,
@@ -478,6 +481,7 @@ function PlaySolution(){
             operation[i].setAttribute("class",'btn btn-default ope-result')
             if(i==operation.length-1){
                 $('.alert-dismissible')[3].style['display'] = 'block'
+
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
                 operation[0].setAttribute("class",'btn btn-success ope-result') 
                 window.clearInterval(t1)
@@ -504,6 +508,7 @@ function BackPlaySolution(){
                 window.clearInterval(t1)
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
                 $('.alert-dismissible')[3].style['display'] = 'block'
+
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
                 operation[0].setAttribute("class",'btn btn-success ope-result') 
             }
@@ -519,7 +524,6 @@ function BackPlaySolution(){
 $("#right").bind("click",PlaySolution)
 $("#left").bind("click",BackPlaySolution)
 $("#play").bind("click",function(){
-    
     playclass = document.getElementById('playicon').getAttribute('class')
     if(playclass=='fa  fa-play'){
         document.getElementById('playicon').setAttribute("class",'fa  fa-pause')
@@ -530,7 +534,7 @@ $("#play").bind("click",function(){
     }
     
 })
-$("#empty").bind("click",function(){
+function emptycolor(){
     isDiyColor = true
     nowcolor = []
     for(i=0;i<6;i++){
@@ -548,11 +552,184 @@ $("#empty").bind("click",function(){
         if(pos[1]!='4')
         $('[pos]')[i].style['background'] = 'rgb(220,220,220)'
     }
+}
+//求解模式初始为随机打乱后的魔方
+$("#solvemode").bind("click",function(){
+    console.log('切换到了求解模式')
+})
+/*
+$("#challengemode").bind("click",function(){
+    cube.random()
+    setTimeout(function(){playerStep.push(getStatus())},3000);  
+})
+$("#exploremode").bind("click",function(){
+    cube.initColor();
+})*/
+$("#empty").bind("click",function(){
+    emptycolor()
+    $('.playandpause')[0].style['display'] = 'none'
+    $('#solution')[0].style['display'] = 'none'
     
 })
 $('.close').bind("click",function(){
-    $('.alert-dismissible')[2].style['display'] = 'none'
-})
-$('#close2').bind("click",function(){
     $('.alert-dismissible')[3].style['display'] = 'none'
 })
+$('#close2').bind("click",function(){
+    $('.alert-dismissible')[4].style['display'] = 'none'
+})
+var aInt = document.getElementsByClassName('operation');
+function a(i){
+    playerStatus.push(getStatus());
+    console.log(i)
+    playerStep.push(turnSign[i])
+}
+for (var i = 0; i < 12; i++) {
+    aInt[i].onclick = function () {
+        playerStep.push(this.innerHTML)
+        cube.turn3(this.innerHTML.toLowerCase());
+        setTimeout(function(){
+            playerStatus.push(getStatus());
+            
+        },2000);  
+    }
+    
+}
+playerStep=['R','R','L','R','D','F','R','R','L']
+document.getElementById('endCha').onclick = function () {
+    clearInterval(timecount)
+    //显示对比图表
+    var formData = new FormData();
+    formData.append('step', playerStatus)
+    //formData.append('video', document.getElementById("videoFile").files[0])
+    $.ajax({
+            url:"challenge",
+            type:"POST",
+            data:formData,
+            processData:false,
+            contentType:false,
+            success: function (result) {
+                console.log(result)
+                var myChart1 = echarts.init(document.getElementById('echart'));
+
+                var human_series = ['1ABC', '2BCD', '3DFG', '4ABC', '5BCD', '6DFG', '7ABC', '8BCD', '9DFG', '10HJK'];
+                var machine_series = ['ABC', 'BCD', 'DFG', 'ABC', 'BCD', 'DFG', 'ABC', 'BCD', 'DFG', 'HJK'];
+                var step_index = [];
+                var machine_step = [9, 8, 7, 6, 5, 4, 3, 4, 2, 1];  //机器每次需要多少步才能解出
+                for(i=0;i<machine_step.length;i++){
+                    step_index.push(i)
+                }
+                var option1 = {
+                    title: {
+                        text: '人机对比',
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter(params) {
+                            // console.log(params);
+                            player = ''
+                            for(j=params[0].dataIndex;j<playerStep.length;j++){
+                                player = player+','+playerStep[i]
+                            }
+                            console.log(player)
+                            var res = '<div><p>human：' + player + '<\p><p>machine：' + machine_series[params[0].dataIndex] + '<\p><\div>';
+                            return res;
+                        },
+                        textStyle: {
+                            color: 'white',
+                            decoration: 'none',
+                            fontFamily: 'Verdana, sans-serif',
+                            fontSize: 15,
+                            fontStyle: 'italic',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    legend: {
+                    },
+                    xAxis: {
+                        name: '步数',
+                        data: step_index
+                    },
+                    yAxis: {
+                        name: '机器还原所需步数'
+                    },
+                    series: [{
+                        type: 'line',
+                        data: machine_step
+                    }]
+                };
+                myChart1.setOption(option1);
+
+            }
+    })
+    $('#echart')[0].style['display'] = 'block'
+}
+result={'machineStep':1}
+machineStep = result['machineStep']
+var myChart1 = echarts.init(document.getElementById('echart'));
+step_index = [];
+machineStep = [ [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1], ['F', -1]],
+                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1], ['U', -1]],
+                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1], ['F', -1]],
+                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1], ['U', -1]],
+                [['B', 1], ['F', -1], ['R', 1], ['L', -1], ['D', 1]],
+                [['B', 1], ['F', -1], ['R', 1], ['L', -1]],
+                [['B', 1], ['F', -1], ['R', 1]], 
+                [['B', 1], ['F', -1]],
+                [['B', 1]],
+                [],]
+newmachineStep = []
+for(i=0;i<machineStep.length;i++){
+    aStep = []
+    for(j=0;j<machineStep[i].length;j++){
+        if(machineStep[i][j][1]==1) aStep.push(machineStep[i][j][0])
+        else aStep.push(machineStep[i][j][0]+'\'')
+    }
+    newmachineStep.push(aStep)
+}
+machineStepLen = []
+for(i=0;i<newmachineStep.length;i++){
+    step_index.push(i)
+    machineStepLen.push(newmachineStep[i].length)
+}
+var option1 = {
+    title: {
+        text: '人机对比',
+    },
+    tooltip: {
+        trigger: 'axis',
+        formatter(params) {
+            // console.log(params);
+            player = ''
+            for(j=params[0].dataIndex;j<playerStep.length;j++){
+                if (j==params[0].dataIndex) player = playerStep[j]
+                else player = player+','+playerStep[j]
+            }
+
+            console.log(player)
+            var res = '<div><p>human：' + player + '<\p><p>machine：' + newmachineStep[params[0].dataIndex] + '<\p><\div>';
+            return res;
+        },
+        textStyle: {
+            color: 'white',
+            decoration: 'none',
+            fontFamily: 'Verdana, sans-serif',
+            fontSize: 15,
+            fontStyle: 'italic',
+            fontWeight: 'bold'
+        }
+    },
+    legend: {
+    },
+    xAxis: {
+        name: '步数',
+        data: step_index
+    },
+    yAxis: {
+        name: '机器还原所需步数'
+    },
+    series: [{
+        type: 'line',
+        data: machineStepLen
+    }]
+};
+myChart1.setOption(option1);

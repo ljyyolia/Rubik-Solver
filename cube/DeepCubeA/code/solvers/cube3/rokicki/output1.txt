@@ -1,0 +1,2 @@
+This is ./nxopt33 metric HALF
+ ./nxopt33 -t 40 -
