@@ -201,7 +201,7 @@ $("#solve").bind("click",function(){
                     $('.playandpause')[0].style['display'] = 'block'
                     $('#solution')[0].style['display'] = 'block'
                 }else{
-                    $('.alert-dismissible')[3].style['display'] = 'block'
+                    $('.alert-dismissible')[0].style['display'] = 'block'
                     $('#error').text('魔方涂色错误，请检查')
                 }
             }
@@ -385,7 +385,7 @@ function CheckColor(nowcolor){
     console.log(colordict)
     for(var key in colordict){
         if(colordict[key]>8) {
-            $('.alert-dismissible')[3].style['display'] = 'block'
+            $('.alert-dismissible')[0].style['display'] = 'block'
             $('#error').text('魔方各颜色总数错误，请检查')
             return false
         }
@@ -427,7 +427,7 @@ function CheckColor(nowcolor){
                 if(nowEdgeColor.sort().toString() === edgeColor[m]==true) edgeflag = 0
             }
             if(edgeflag==0){
-                $('.alert-dismissible')[3].style['display'] = 'block'
+                $('.alert-dismissible')[0].style['display'] = 'block'
                 $('#error').text('魔方棱块颜色错误，请检查')
                 return false
             }
@@ -436,7 +436,7 @@ function CheckColor(nowcolor){
     }
     console.log(cornerFlags)
     if(cornerFlags.indexOf(0)>-1){
-        $('.alert-dismissible')[3].style['display'] = 'block'
+        $('.alert-dismissible')[0].style['display'] = 'block'
         $('#error').text('魔方角块颜色错误，请检查')
         return false
     }
@@ -478,7 +478,7 @@ function PlaySolution(){
             flag=1
             operation[i].setAttribute("class",'btn btn-default ope-result')
             if(i==operation.length-1){
-                $('.alert-dismissible')[4].style['display'] = 'block'
+                $('.alert-dismissible')[1].style['display'] = 'block'
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
                 operation[0].setAttribute("class",'btn btn-success ope-result') 
                 window.clearInterval(t1)
@@ -504,7 +504,7 @@ function BackPlaySolution(){
                 
                 window.clearInterval(t1)
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
-                $('.alert-dismissible')[4].style['display'] = 'block'
+                $('.alert-dismissible')[1].style['display'] = 'block'
                 document.getElementById('playicon').setAttribute("class",'fa  fa-play')
                 operation[0].setAttribute("class",'btn btn-success ope-result') 
             }
@@ -553,13 +553,22 @@ function emptycolor(){
 $("#solvemode").bind("click",function(){
     console.log('切换到了求解模式')
     $('#echart')[0].style['visibility'] = 'hidden'
+    $('#solvebtn')[0].class = 'btn bg-green-active color-palette col-xs-2'
+    $('#explorebtn')[0].class = 'btn bg-green color-palette col-xs-2'
+    $('#challengebtn')[0].class = 'btn bg-green color-palette col-xs-2'
 })
 
 $("#challengemode").bind("click",function(){
     $('#echart')[0].style['visibility'] = 'visible'
+    $('#solvebtn')[0].class = 'btn bg-green color-palette col-xs-2'
+    $('#explorebtn')[0].class = 'btn bg-green color-palette col-xs-2'
+    $('#challengebtn')[0].class = 'btn bg-green-active color-palette col-xs-2'
 })
 $("#exploremode").bind("click",function(){
     $('#echart')[0].style['visibility'] = 'hidden'
+    $('#solvebtn')[0].class = 'btn bg-greencolor-palette col-xs-2'
+    $('#explorebtn')[0].class = 'btn bg-green-active  color-palette col-xs-2'
+    $('#challengebtn')[0].class = 'btn bg-green color-palette col-xs-2'
 })
 $("#empty").bind("click",function(){
     emptycolor()
@@ -568,10 +577,10 @@ $("#empty").bind("click",function(){
     
 })
 $('.close').bind("click",function(){
-    $('.alert-dismissible')[3].style['display'] = 'none'
+    $('.alert-dismissible')[0].style['display'] = 'none'
 })
 $('#close2').bind("click",function(){
-    $('.alert-dismissible')[4].style['display'] = 'none'
+    $('.alert-dismissible')[1].style['display'] = 'none'
 })
 var aInt = document.getElementsByClassName('operation');
 for (var i = 0; i < 12; i++) {
@@ -666,6 +675,10 @@ document.getElementById('endCha').onclick = function () {
     $('#echart')[0].style['display'] = 'block'
 }
 document.getElementById('startCha').onclick = function () {
+    operations = $('.opreation')
+    for(i=0;i<operations.length;i++){
+        operations[i].class='btn btn-default operation'
+    }
     setTimeout(function(){
             playerStatus.push(getStatus())
         },4000);
