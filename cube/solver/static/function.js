@@ -553,22 +553,23 @@ function emptycolor(){
 $("#solvemode").bind("click",function(){
     console.log('切换到了求解模式')
     $('#echart')[0].style['visibility'] = 'hidden'
-    $('#solvebtn')[0].class = 'btn bg-green-active color-palette col-xs-2'
-    $('#explorebtn')[0].class = 'btn bg-green color-palette col-xs-2'
-    $('#challengebtn')[0].class = 'btn bg-green color-palette col-xs-2'
+
+    $('#solvebtn')[0].attr('class','btn bg-green-active color-palette col-xs-2')
+    $('#explorebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
+    $('#challengebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
 })
 
 $("#challengemode").bind("click",function(){
     $('#echart')[0].style['visibility'] = 'visible'
-    $('#solvebtn')[0].class = 'btn bg-green color-palette col-xs-2'
-    $('#explorebtn')[0].class = 'btn bg-green color-palette col-xs-2'
-    $('#challengebtn')[0].class = 'btn bg-green-active color-palette col-xs-2'
+    $('#solvebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
+    $('#explorebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
+    $('#challengebtn')[0].attr('class','btn bg-green-active color-palette col-xs-2')
 })
 $("#exploremode").bind("click",function(){
     $('#echart')[0].style['visibility'] = 'hidden'
-    $('#solvebtn')[0].class = 'btn bg-greencolor-palette col-xs-2'
-    $('#explorebtn')[0].class = 'btn bg-green-active  color-palette col-xs-2'
-    $('#challengebtn')[0].class = 'btn bg-green color-palette col-xs-2'
+    $('#solvebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
+    $('#explorebtn')[0].attr('class','btn bg-green-active color-palette col-xs-2')
+    $('#challengebtn')[0].attr('class','btn bg-green color-palette col-xs-2')
 })
 $("#empty").bind("click",function(){
     emptycolor()
@@ -675,10 +676,7 @@ document.getElementById('endCha').onclick = function () {
     $('#echart')[0].style['display'] = 'block'
 }
 document.getElementById('startCha').onclick = function () {
-    operations = $('.opreation')
-    for(i=0;i<operations.length;i++){
-        operations[i].class='btn btn-default operation'
-    }
+    operations = $('.opreation').attr('class','btn btn-default operation')
     setTimeout(function(){
             playerStatus.push(getStatus())
         },4000);
