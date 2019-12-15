@@ -675,11 +675,6 @@ document.getElementById('endCha').onclick = function () {
     $('#echart')[0].style['display'] = 'block'
 }
 document.getElementById('startCha').onclick = function () {
-    operations = document.getElementsByClassName('btn btn-default disabled operation')
-    for(i=0;i<12;i++){
-        console.log(i)
-        operations[i].className = 'btn btn-default operation'
-    }
     setTimeout(function(){
             playerStatus.push(getStatus())
         },4000);
