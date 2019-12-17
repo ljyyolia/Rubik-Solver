@@ -610,6 +610,7 @@ for (var i = 0; i < 12; i++) {
     
 }
 document.getElementById('endCha').onclick = function () {
+    $('#echart')[0].style['visibility'] = 'visible'
     clearInterval(timecount)
     time = 0
     IsChallenge = false
