@@ -3,6 +3,7 @@ cubeStatus = [] //存放顺序为上下左右前后
 //记得记录初始状态
 playerStep = []
 playerStatus = []
+playerCube = []
 $("#show").bind("click",function(){
     cubeStatus = []
     for(i=0;i<6;i++){
@@ -583,12 +584,27 @@ $('#close2').bind("click",function(){
     $('.alert-dismissible')[1].style['display'] = 'none'
 })
 var aInt = document.getElementsByClassName('operation');
+function getplayerCube(){
+    cubeStatus = []
+    for(i=0;i<6;i++){
+        surface = []
+        for(j=0;j<9;j++){
+            pos = "[pos='"+i+','+j+"']";
+            console.log(pos)
+            color = $(pos)[0].style['background']
+            surface.push(color)
+        }
+        cubeStatus.push(surface)
+    }
+    return cubeStatus
+}
 for (var i = 0; i < 12; i++) {
     aInt[i].onclick = function () {
         playerStep.push(this.innerHTML)
         cube.turn3(this.innerHTML.toLowerCase());
         setTimeout(function(){
             playerStatus.push(getStatus())
+            playerCube.push(getplayerCube())
         },1000);
     }
     
@@ -669,14 +685,28 @@ document.getElementById('endCha').onclick = function () {
                     }]
                 };
                 myChart1.setOption(option1);
+                myChart1.on('click', function (param) {
+                    console.log(param);//这里根据param填写你的跳转逻辑
+                    if(param.componentType=="series"){
+                        console.log('点击到了数据')
+                        for(i=0;i<6;i++){
+                            for(j=0;j<9;j++){
+                                pos = "[pos='"+i+','+j+"']";
+                                $(pos)[0].style['background'] = playerCube[param.dataIndex][i][j]
+                            }
+                        }
+                    }
 
+                })
             }
     })
     $('#echart')[0].style['display'] = 'block'
 }
 document.getElementById('startCha').onclick = function () {
+    $('#echart')[0].style['visibility'] = 'hidden'
     setTimeout(function(){
             playerStatus.push(getStatus())
+            playerCube.push(getplayerCube())
         },4000);
     if(IsChallenge==false)  {
         cube.random()
