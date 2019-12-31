@@ -674,7 +674,7 @@ document.getElementById('endCha').onclick = function () {
                     legend: {
                     },
                     xAxis: {
-                        name: '步数',
+                        name: '用户的每步操作',
                         data: step_index
                     },
                     yAxis: {
