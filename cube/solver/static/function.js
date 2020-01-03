@@ -679,6 +679,7 @@ document.getElementById('endCha').onclick = function () {
                             padding: [0, 0, 10, -10]    // 四个数字分别为上右下左与原位置距离
                         },*/
                         nameLocation:'middle',
+                        nameGap:30,
                         data: step_index
                     },
                     yAxis: {
