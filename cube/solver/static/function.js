@@ -675,6 +675,9 @@ document.getElementById('endCha').onclick = function () {
                     },
                     xAxis: {
                         name: '用户的每步操作',
+                        nameTextStyle: {
+                            padding: [0, 0, 10, -10]    // 四个数字分别为上右下左与原位置距离
+                        },
                         data: step_index
                     },
                     yAxis: {
